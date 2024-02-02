@@ -1,9 +1,25 @@
+import Img12 from '../Images/Products/watch (22).png'
+import Img13 from '../Images/Products/watch (23).png'
+import Img14 from '../Images/Products/watch (24).png'
+import Img15 from '../Images/Products/watch (25).png'
+import Img16 from '../Images/Products/watch (26).png'
+import Img17 from '../Images/Products/watch (27).png'
+import Img18 from '../Images/Products/watch (28).png'
+import Img19 from '../Images/Products/watch (29).png'
+import Img20 from '../Images/Products/watch (30).png'
+import Img21 from '../Images/Products/watch (31).png'
+import Img22 from '../Images/Products/watch (32).png'
+import Img23 from '../Images/Products/watch (33).png'
+import Img24 from '../Images/Products/watch (34).png'
+import Img25 from '../Images/Products/watch (35).png'
+import Img26 from '../Images/Products/watch (36).png'
+
 const topproducts=[
 	{
 		name:"Celestial Serenity, Zen Harmony",
 		newPrice:100,
 		oldPrice:520,
-		img:"src/assets/Images/Products/watch (22).png",
+		img:Img12,
 		strap:"plastic",
 		category:"men",
 		id:17,
@@ -14,7 +30,7 @@ const topproducts=[
 		name:"Velocity Vanguard, Skyline Sculpt",
 		newPrice:100,
 		oldPrice:590,
-		img:"src/assets/Images/Products/watch (23).png",
+		img:Img13,
 		strap:"plastic",
 		category:"men",
 		id:18,
@@ -25,7 +41,7 @@ const topproducts=[
 		name:"Time Trek through Nebulous Essence",
 		newPrice:100,
 		oldPrice:450,
-		img:"src/assets/Images/Products/watch (24).png",
+		img:Img14,
 		strap:"aluminum",
 		category:"men",
 		id:19,
@@ -36,9 +52,9 @@ const topproducts=[
 		name:"Stellar Sync, Nomad's Quest",
 		newPrice:100,
 		oldPrice:620,
-		img:"src/assets/Images/Products/watch (25).png",
+		img:Img15,
 		strap:"plastic",
-		category:"women",
+		category:"men",
 		id:20,
 		rating:4.5,
 		head:"aluminum",
@@ -47,7 +63,7 @@ const topproducts=[
 		name:"Infinity Impulse in Midnight",
 		newPrice:100,
 		oldPrice:720,
-		img:"src/assets/Images/Products/watch (26).png",
+		img:Img16,
 		strap:"aluminum",
 		category:"men",
 		id:21,
@@ -58,7 +74,7 @@ const topproducts=[
 		name:"Radiant Reverie, Solaris Serenity",
 		newPrice:100,
 		oldPrice:690,
-		img:"src/assets/Images/Products/watch (27).png",
+		img:Img17,
 		strap:"aluminum",
 		category:"men",
 		id:22,
@@ -69,7 +85,7 @@ const topproducts=[
 		name:"Zen Zone, Lunar Luxe",
 		newPrice:100,
 		oldPrice:820,
-		img:"src/assets/Images/Products/watch (28).png",
+		img:Img18,
 		strap:"aluminum",
 		category:"men",
 		id:23,
@@ -80,10 +96,21 @@ const topproducts=[
 		name:"Nomad Nebula, Terra Tide",
 		newPrice:100,
 		oldPrice:920,
-		img:"src/assets/Images/Products/watch (29).png",
+		img:Img19,
 		strap:"plastic",
-		category:"women",
+		category:"men",
 		id:24,
+		rating:4.5,
+		head:"aluminum",
+	},
+	{
+		name:"Solar Flare Sync, Celestial Chic",
+		newPrice:100,
+		oldPrice:120,
+		img:Img20,
+		strap:"aluminum",
+		category:"men",
+		id:25,
 		rating:4.5,
 		head:"aluminum",
 	},
@@ -91,7 +118,7 @@ const topproducts=[
 		name:"Quantum Quasar in Zenith",
 		newPrice:100,
 		oldPrice:590,
-		img:"src/assets/Images/Products/watch (31).png",
+		img:Img21,
 		strap:"aluminum",
 		category:"men",
 		id:26,
@@ -102,7 +129,7 @@ const topproducts=[
 		name:"Zenith Zephyr, Lunar Legacy",
 		newPrice:100,
 		oldPrice:450,
-		img:"src/assets/Images/Products/watch (32).png",
+		img:Img22,
 		strap:"aluminum",
 		category:"women",
 		id:27,
@@ -113,7 +140,7 @@ const topproducts=[
 		name:"Lunar Luxe, Solar Serenade",
 		newPrice:100,
 		oldPrice:620,
-		img:"src/assets/Images/Products/watch (33).png",
+		img:Img23,
 		strap:"aluminum",
 		category:"women",
 		id:28,
@@ -124,7 +151,7 @@ const topproducts=[
 		name:"Nebula Nomad, Celestial Chic",
 		newPrice:100,
 		oldPrice:720,
-		img:"src/assets/Images/Products/watch (34).png",
+		img:Img24,
 		strap:"aluminum",
 		category:"men",
 		id:29,
@@ -135,7 +162,7 @@ const topproducts=[
 		name:"Mirage Mingle, Horizon Harmony",
 		newPrice:100,
 		oldPrice:690,
-		img:"src/assets/Images/Products/watch (35).png",
+		img:Img25,
 		strap:"aluminum",
 		category:"women",
 		id:30,
@@ -146,7 +173,7 @@ const topproducts=[
 		name:"Celestial Cascade, Urban Elegance",
 		newPrice:100,
 		oldPrice:820,
-		img:"src/assets/Images/Products/watch (36).png",
+		img:Img26,
 		strap:"aluminum",
 		category:"men",
 		id:31,

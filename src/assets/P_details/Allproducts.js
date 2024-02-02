@@ -1,4 +1,58 @@
 import Img1 from '../Images/Products/watch_1.png'
+import Img2 from '../Images/Products/watch (1).jpg'
+import Img3 from '../Images/Products/watch (5).png'
+import Img4 from '../Images/Products/watch (6).png'
+import Img5 from '../Images/Products/watch (14).png'
+import Img6 from '../Images/Products/watch (15).png'
+import Img7 from '../Images/Products/watch (16).png'
+import Img8 from '../Images/Products/watch (18).png'
+import Img9 from '../Images/Products/watch (19).png'
+import Img10 from '../Images/Products/watch (20).png'
+import Img11 from '../Images/Products/watch (21).png'
+import Img12 from '../Images/Products/watch (22).png'
+import Img13 from '../Images/Products/watch (23).png'
+import Img14 from '../Images/Products/watch (24).png'
+import Img15 from '../Images/Products/watch (25).png'
+import Img16 from '../Images/Products/watch (26).png'
+import Img17 from '../Images/Products/watch (27).png'
+import Img18 from '../Images/Products/watch (28).png'
+import Img19 from '../Images/Products/watch (29).png'
+import Img20 from '../Images/Products/watch (30).png'
+import Img21 from '../Images/Products/watch (31).png'
+import Img22 from '../Images/Products/watch (32).png'
+import Img23 from '../Images/Products/watch (33).png'
+import Img24 from '../Images/Products/watch (34).png'
+import Img25 from '../Images/Products/watch (35).png'
+import Img26 from '../Images/Products/watch (36).png'
+import Img27 from '../Images/Products/watch (37).png'
+import Img28 from '../Images/Products/watch (38).png'
+import Img29 from '../Images/Products/watch (39).png'
+import Img30 from '../Images/Products/watch (40).png'
+import Img31 from '../Images/Products/watch (41).png'
+import Img32 from '../Images/Products/watch (42).png'
+import Img33 from '../Images/Products/watch (43).png'
+import Img34 from '../Images/Products/watch (44).png'
+import Img35 from '../Images/Products/watch (45).png'
+import Img36 from '../Images/Products/watch (46).png'
+import Img37 from '../Images/Products/watch (47).png'
+import Img38 from '../Images/Products/watch (48).png'
+import Img39 from '../Images/Products/watch (49).png'
+import Img40 from '../Images/Products/watch (50).png'
+import Img41 from '../Images/Products/watch (51).png'
+import Img42 from '../Images/Products/watch (52).png'
+import Img43 from '../Images/Products/watch (7).png'
+import Img44 from '../Images/Products/watch (8).png'
+import Img45 from '../Images/Products/watch (9).png'
+import Img46 from '../Images/Products/watch (9).jpg'
+import Img47 from '../Images/Products/watch (10).png'
+import Img48 from '../Images/Products/watch (11).png'
+import Img49 from '../Images/Products/watch (12).png'
+import Img50 from '../Images/Products/watch (13).png'
+import Img51 from '../Images/Products/watch (8).jpg'
+import Img52 from '../Images/Products/watch (4).png'
+import Img53 from '../Images/Products/watch (3).png'
+import Img54 from '../Images/Products/watch (2).png'
+
 
 const allProducts = [
 	{
@@ -17,7 +71,7 @@ const allProducts = [
 		name:"Quantum Elegance for Urban Explorers",
 		newPrice:100,
 		oldPrice:140,
-		img:"src/assets/Images/Products/watch (1).jpg",
+		img:Img2,
 		strap:null,
 		category:"clock",
 		id:3,
@@ -28,7 +82,7 @@ const allProducts = [
 		name:"Solaris Symphony in Midnight",
 		newPrice:100,
 		oldPrice:350,
-		img:"src/assets/Images/Products/watch (5).png",
+		img:Img3,
 		strap:"plastic",
 		category:"women",
 		id:8,
@@ -39,7 +93,7 @@ const allProducts = [
 		name:"Lunar Luxe for Night Wanderers",
 		newPrice:100,
 		oldPrice:370,
-		img:"src/assets/Images/Products/watch (6).png",
+		img:Img4,
 		strap:"plastic",
 		category:"women",
 		id:9,
@@ -50,7 +104,7 @@ const allProducts = [
 		name:"Zenith Zest in Stellar Motion",
 		newPrice:100,
 		oldPrice:500,
-		img:"src/assets/Images/Products/watch (14).png",
+		img:Img5,
 		strap:"plastic",
 		category:"men",
 		id:10,
@@ -61,7 +115,7 @@ const allProducts = [
 		name:"Terra Tide, Horizon Heritage",
 		newPrice:100,
 		oldPrice:500,
-		img:"src/assets/Images/Products/watch (15).png",
+		img:Img6,
 		strap:"aluminum",
 		category:"men",
 		id:11,
@@ -72,7 +126,7 @@ const allProducts = [
 		name:"Celestial Chic for Urbanites",
 		newPrice:100,
 		oldPrice:500,
-		img:"src/assets/Images/Products/watch (16).png",
+		img:Img7,
 		strap:"plastic",
 		category:"men",
 		id:12,
@@ -83,7 +137,7 @@ const allProducts = [
 		name:"Epoch Enigma of Timeless Elegance",
 		newPrice:100,
 		oldPrice:550,
-		img:"src/assets/Images/Products/watch (18).png",
+		img:Img8,
 		strap:"plastic",
 		category:"men",
 		id:13,
@@ -94,7 +148,7 @@ const allProducts = [
 		name:"Nova Nexus, Lunar Legacy",
 		newPrice:100,
 		oldPrice:590,
-		img:"src/assets/Images/Products/watch (19).png",
+		img:Img9,
 		strap:"plastic",
 		category:"men",
 		id:14,
@@ -105,7 +159,7 @@ const allProducts = [
 		name:"Cosmic Cascade, Urban Euphoria",
 		newPrice:100,
 		oldPrice:520,
-		img:"src/assets/Images/Products/watch (20).png",
+		img:Img10,
 		strap:"plastic",
 		category:"men",
 		id:15,
@@ -116,7 +170,7 @@ const allProducts = [
 		name:"Mirage Mingle in Celestial Hues",
 		newPrice:100,
 		oldPrice:520,
-		img:"src/assets/Images/Products/watch (21).png",
+		img:Img11,
 		strap:"aluminum",
 		category:"women",
 		id:16,
@@ -127,7 +181,7 @@ const allProducts = [
 		name:"Celestial Serenity, Zen Harmony",
 		newPrice:100,
 		oldPrice:520,
-		img:"src/assets/Images/Products/watch (22).png",
+		img:Img12,
 		strap:"plastic",
 		category:"men",
 		id:17,
@@ -138,7 +192,7 @@ const allProducts = [
 		name:"Velocity Vanguard, Skyline Sculpt",
 		newPrice:100,
 		oldPrice:590,
-		img:"src/assets/Images/Products/watch (23).png",
+		img:Img13,
 		strap:"plastic",
 		category:"men",
 		id:18,
@@ -149,7 +203,7 @@ const allProducts = [
 		name:"Time Trek through Nebulous Essence",
 		newPrice:100,
 		oldPrice:450,
-		img:"src/assets/Images/Products/watch (24).png",
+		img:Img14,
 		strap:"aluminum",
 		category:"men",
 		id:19,
@@ -160,7 +214,7 @@ const allProducts = [
 		name:"Stellar Sync, Nomad's Quest",
 		newPrice:100,
 		oldPrice:620,
-		img:"src/assets/Images/Products/watch (25).png",
+		img:Img15,
 		strap:"plastic",
 		category:"men",
 		id:20,
@@ -171,7 +225,7 @@ const allProducts = [
 		name:"Infinity Impulse in Midnight",
 		newPrice:100,
 		oldPrice:720,
-		img:"src/assets/Images/Products/watch (26).png",
+		img:Img16,
 		strap:"aluminum",
 		category:"men",
 		id:21,
@@ -182,7 +236,7 @@ const allProducts = [
 		name:"Radiant Reverie, Solaris Serenity",
 		newPrice:100,
 		oldPrice:690,
-		img:"src/assets/Images/Products/watch (27).png",
+		img:Img17,
 		strap:"aluminum",
 		category:"men",
 		id:22,
@@ -193,7 +247,7 @@ const allProducts = [
 		name:"Zen Zone, Lunar Luxe",
 		newPrice:100,
 		oldPrice:820,
-		img:"src/assets/Images/Products/watch (28).png",
+		img:Img18,
 		strap:"aluminum",
 		category:"men",
 		id:23,
@@ -204,7 +258,7 @@ const allProducts = [
 		name:"Nomad Nebula, Terra Tide",
 		newPrice:100,
 		oldPrice:920,
-		img:"src/assets/Images/Products/watch (29).png",
+		img:Img19,
 		strap:"plastic",
 		category:"men",
 		id:24,
@@ -215,7 +269,7 @@ const allProducts = [
 		name:"Solar Flare Sync, Celestial Chic",
 		newPrice:100,
 		oldPrice:120,
-		img:"src/assets/Images/Products/watch (30).png",
+		img:Img20,
 		strap:"aluminum",
 		category:"men",
 		id:25,
@@ -226,7 +280,7 @@ const allProducts = [
 		name:"Quantum Quasar in Zenith",
 		newPrice:100,
 		oldPrice:590,
-		img:"src/assets/Images/Products/watch (31).png",
+		img:Img21,
 		strap:"aluminum",
 		category:"men",
 		id:26,
@@ -237,7 +291,7 @@ const allProducts = [
 		name:"Zenith Zephyr, Lunar Legacy",
 		newPrice:100,
 		oldPrice:450,
-		img:"src/assets/Images/Products/watch (32).png",
+		img:Img22,
 		strap:"aluminum",
 		category:"women",
 		id:27,
@@ -248,7 +302,7 @@ const allProducts = [
 		name:"Lunar Luxe, Solar Serenade",
 		newPrice:100,
 		oldPrice:620,
-		img:"src/assets/Images/Products/watch (33).png",
+		img:Img23,
 		strap:"aluminum",
 		category:"women",
 		id:28,
@@ -259,7 +313,7 @@ const allProducts = [
 		name:"Nebula Nomad, Celestial Chic",
 		newPrice:100,
 		oldPrice:720,
-		img:"src/assets/Images/Products/watch (34).png",
+		img:Img24,
 		strap:"aluminum",
 		category:"men",
 		id:29,
@@ -270,7 +324,7 @@ const allProducts = [
 		name:"Mirage Mingle, Horizon Harmony",
 		newPrice:100,
 		oldPrice:690,
-		img:"src/assets/Images/Products/watch (35).png",
+		img:Img25,
 		strap:"aluminum",
 		category:"women",
 		id:30,
@@ -281,7 +335,7 @@ const allProducts = [
 		name:"Celestial Cascade, Urban Elegance",
 		newPrice:100,
 		oldPrice:820,
-		img:"src/assets/Images/Products/watch (36).png",
+		img:Img26,
 		strap:"aluminum",
 		category:"men",
 		id:31,
@@ -292,7 +346,7 @@ const allProducts = [
 		name:"Solaris Serenity, Lunar Legacy",
 		newPrice:100,
 		oldPrice:920,
-		img:"src/assets/Images/Products/watch (37).png",
+		img:Img27,
 		strap:"aluminum",
 		category:"men",
 		id:32,
@@ -303,7 +357,7 @@ const allProducts = [
 		name:"Timeless Titan in Celestial Harmony",
 		newPrice:100,
 		oldPrice:120,
-		img:"src/assets/Images/Products/watch (38).png",
+		img:Img28,
 		strap:"plastic",
 		category:"men",
 		id:34,
@@ -314,7 +368,7 @@ const allProducts = [
 		name:"Nova Nexus, Celestial Cascade",
 		newPrice:100,
 		oldPrice:590,
-		img:"src/assets/Images/Products/watch (39).png",
+		img:Img29,
 		strap:"aluminum",
 		category:"men",
 		id:35,
@@ -325,7 +379,7 @@ const allProducts = [
 		name:"Quantum Quasar, Stellar Sync",
 		newPrice:100,
 		oldPrice:450,
-		img:"src/assets/Images/Products/watch (40).png",
+		img:Img30,
 		strap:"plastic",
 		category:"men",
 		id:36,
@@ -336,7 +390,7 @@ const allProducts = [
 		name:"Eclipse Elegance, Lunar Legacy",
 		newPrice:100,
 		oldPrice:620,
-		img:"src/assets/Images/Products/watch (41).png",
+		img:Img31,
 		strap:"aluminum",
 		category:"women",
 		id:37,
@@ -347,7 +401,7 @@ const allProducts = [
 		name:"Nomad Nebula, Terra Tide",
 		newPrice:100,
 		oldPrice:720,
-		img:"src/assets/Images/Products/watch (42).png",
+		img:Img32,
 		strap:"aluminum",
 		category:"men",
 		id:38,
@@ -358,7 +412,7 @@ const allProducts = [
 		name:"Celestial Chic, Zenith Zest",
 		newPrice:100,
 		oldPrice:690,
-		img:"src/assets/Images/Products/watch (43).png",
+		img:Img33,
 		strap:"aluminum",
 		category:"women",
 		id:39,
@@ -369,7 +423,7 @@ const allProducts = [
 		name:"Velocity Vanguard, Cosmic Cascade",
 		newPrice:100,
 		oldPrice:820,
-		img:"src/assets/Images/Products/watch (44).png",
+		img:Img34,
 		strap:"aluminum",
 		category:"men",
 		id:40,
@@ -380,7 +434,7 @@ const allProducts = [
 		name:"Horizon Harmony, Mirage Mingle",
 		newPrice:100,
 		oldPrice:920,
-		img:"src/assets/Images/Products/watch (45).png",
+		img:Img35,
 		strap:"aluminum",
 		category:"women",
 		id:41,
@@ -391,7 +445,7 @@ const allProducts = [
 		name:"Solaris Serenity, Zen Zone",
 		newPrice:100,
 		oldPrice:120,
-		img:"src/assets/Images/Products/watch (46).png",
+		img:Img36,
 		strap:"aluminum",
 		category:"women",
 		id:42,
@@ -402,7 +456,7 @@ const allProducts = [
 		name:"Lunar Luxe, Time Trek",
 		newPrice:100,
 		oldPrice:620,
-		img:"src/assets/Images/Products/watch (47).png",
+		img:Img37,
 		strap:"plastic",
 		category:"men",
 		id:43,
@@ -413,7 +467,7 @@ const allProducts = [
 		name:"Radiant Reverie, Epoch Enigma",
 		newPrice:100,
 		oldPrice:720,
-		img:"src/assets/Images/Products/watch (48).png",
+		img:Img38,
 		strap:"aluminum",
 		category:"men",
 		id:44,
@@ -424,7 +478,7 @@ const allProducts = [
 		name:"Epoch Enigma of Timeless Elegance",
 		newPrice:100,
 		oldPrice:690,
-		img:"src/assets/Images/Products/watch (49).png",
+		img:Img39,
 		strap:null,
 		category:"clock",
 		id:45,
@@ -435,7 +489,7 @@ const allProducts = [
 		name:"Celestial Chic for Urbanites",
 		newPrice:100,
 		oldPrice:820,
-		img:"src/assets/Images/Products/watch (50).png",
+		img:Img40,
 		strap:"aluminum",
 		category:"women",
 		id:46,
@@ -446,7 +500,7 @@ const allProducts = [
 		name:"Terra Tide, Horizon Heritage",
 		newPrice:100,
 		oldPrice:920,
-		img:"src/assets/Images/Products/watch (51).png",
+		img:Img41,
 		strap:"aluminum",
 		category:"women",
 		id:47,
@@ -457,7 +511,7 @@ const allProducts = [
 		name:"Zenith Zest in Stellar Motion",
 		newPrice:100,
 		oldPrice:120,
-		img:"src/assets/Images/Products/watch (52).png",
+		img:Img42,
 		strap:null,
 		category:"clock",
 		id:48,
@@ -468,7 +522,7 @@ const allProducts = [
 		name:"Lunar Luxe, Radiant Reverie",
 		newPrice:100,
 		oldPrice:690,
-		img:"src/assets/Images/Products/watch (7).png",
+		img:Img43,
 		strap:"plastic",
 		category:"women",
 		id:50,
@@ -479,7 +533,7 @@ const allProducts = [
 		name:"Cosmic Cascade, Nomad Nebula",
 		newPrice:100,
 		oldPrice:820,
-		img:"src/assets/Images/Products/watch (8).png",
+		img:Img44,
 		strap:"aluminum",
 		category:"men",
 		id:51,
@@ -490,7 +544,7 @@ const allProducts = [
 		name:"Nova Nexus, Eclipse Elegance",
 		newPrice:100,
 		oldPrice:920,
-		img:"src/assets/Images/Products/watch (9).jpg",
+		img:Img45,
 		strap:null,
 		category:"clock",
 		id:52,
@@ -501,7 +555,7 @@ const allProducts = [
 		name:"Timeless Titan, Stellar Sync",
 		newPrice:100,
 		oldPrice:120,
-		img:"src/assets/Images/Products/watch (9).png",
+		img:Img46,
 		strap:"plastic",
 		category:"women",
 		id:53,
@@ -513,7 +567,7 @@ const allProducts = [
 		name:"Quantum Quasar, Mirage Mingle",
 		newPrice:100,
 		oldPrice:720,
-		img:"src/assets/Images/Products/watch (10).png",
+		img:Img47,
 		strap:"plastic",
 		category:"women",
 		id:55,
@@ -524,7 +578,7 @@ const allProducts = [
 		name:"Celestial Cascade, Lunar Legacy",
 		newPrice:100,
 		oldPrice:690,
-		img:"src/assets/Images/Products/watch (11).png",
+		img:Img48,
 		strap:"aluminum",
 		category:"men",
 		id:56,
@@ -535,7 +589,7 @@ const allProducts = [
 		name:"Horizon Harmony, Solaris Serenity",
 		newPrice:100,
 		oldPrice:820,
-		img:"src/assets/Images/Products/watch (12).png",
+		img:Img49,
 		strap:"plastic",
 		category:"men",
 		id:57,
@@ -546,7 +600,7 @@ const allProducts = [
 		name:"Terra Tide, Zenith Zephyr",
 		newPrice:100,
 		oldPrice:920,
-		img:"src/assets/Images/Products/watch (13).png",
+		img:Img50,
 		strap:"aluminum",
 		category:"women",
 		id:58,
@@ -557,7 +611,7 @@ const allProducts = [
 		name:"Nebula Nectar, Celestial Chic",
 		newPrice:100,
 		oldPrice:120,
-		img:"src/assets/Images/Products/watch (8).jpg",
+		img:Img51,
 		strap:"plastic",
 		category:"men",
 		id:59,
@@ -568,7 +622,7 @@ const allProducts = [
 		name:"Nebula Nectar of Radiant Moments",
 		newPrice:100,
 		oldPrice:390,
-		img:"src/assets/Images/Products/watch (4).png",
+		img:Img52,
 		strap:"plastic",
 		category:"women",
 		id:7,
@@ -579,7 +633,7 @@ const allProducts = [
 		name:"Horizon's Timeless Nomadic Adventure",
 		newPrice:100,
 		oldPrice:350,
-		img:"src/assets/Images/Products/watch (3).png",
+		img:Img53,
 		strap:"aluminum",
 		category:"women",
 		id:6,
@@ -590,7 +644,7 @@ const allProducts = [
 		name:"Quantum Elegance for Urban Explorers",
 		newPrice:100,
 		oldPrice:130,
-		img:"src/assets/Images/Products/watch (2).png",
+		img:Img54,
 		strap:"plastic",
 		category:"women",
 		id:2,
