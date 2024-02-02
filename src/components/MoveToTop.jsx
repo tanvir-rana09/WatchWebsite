@@ -1,5 +1,4 @@
 import arrow from '../assets/Images/BannerImg/right-arrow.png'
-import { BsArrowUp } from "react-icons/bs";
 
 
 import { useEffect, useState } from "react"

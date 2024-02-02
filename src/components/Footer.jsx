@@ -3,7 +3,6 @@ import Newsletter from "./Newsletter"
 import { FaFacebook } from "react-icons/fa";
 import { GrGithub, GrInstagram } from "react-icons/gr";
 import { FaTwitter } from "react-icons/fa";
-import { IoIosMail } from "react-icons/io";
 import { IoLogoWhatsapp } from "react-icons/io";
 
 const Footter = () => {

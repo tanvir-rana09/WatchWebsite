@@ -13,7 +13,7 @@ import { WatchContext } from '../context/Context';
 const Navbar = () => {
 	const [fixedNav, setFixedNav] = useState(false)
 	const [sidenav, setSidenav] = useState(false)
-const {getTotalCartItems}=useContext(WatchContext)
+	const { getTotalCartItems } = useContext(WatchContext)
 
 	useEffect(() => {
 		window.addEventListener('scroll', () => {
