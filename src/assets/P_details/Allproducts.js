@@ -1,10 +1,11 @@
+import Img1 from '../Images/Products/watch_1.png'
 
 const allProducts = [
 	{
 		name:"Velocity in Celestial Harmony",
 		newPrice:100,
 		oldPrice:120,
-		img:"src/assets/Images/Products/watch_1.png",
+		img:Img1,
 		strap:"aluminum",
 		category:"men",
 		id:1,
