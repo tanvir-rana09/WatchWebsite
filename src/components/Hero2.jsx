@@ -61,7 +61,7 @@ const FadeCarousel = () => {
 					}
 				</div>
 			</div>
-			<HeroText pText='Available Now' heading={`Coustom Watches`} headingLast='For Any Occasion' />
+			{/* <HeroText pText='Available Now' heading={`Coustom Watches`} headingLast='For Any Occasion' /> */}
 		</div>
 	);
 };

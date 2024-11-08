@@ -1,107 +1,104 @@
-
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cinzel&family=Cormorant+Garamond:wght@300&family=Forum&family=Oswald&family=Rethink+Sans&family=Righteous&family=Sen&family=Sevillana&family=Whisper&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cinzel&family=Cormorant+Garamond:wght@300&family=Forum&family=Oswald&family=Rethink+Sans&family=Righteous&family=Sen&family=Sevillana&family=Whisper&display=swap");
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@layer base{
-	html{
-		font-family: 'Rethink Sans', sans-serif;
-	}
-
-	
+@layer base {
+    html {
+        font-family: "Rethink Sans", sans-serif;
+		
+    }
 }
-@layer components{
-	.list{
-		@apply relative after:absolute after:w-0 after:top-6 after:left-0 after:bg-black hover:after:w-full after:duration-300  cursor-pointer  after:h-[2px] font-semibold font-extendfont2
-	}
-	.actives{
-		@apply relative after:absolute after:w-full after:top-6 after:left-0 after:bg-black after:h-[2px] font-extendfont2 font-semibold
-	}
-	.cart{
-		@apply absolute right-[2px] top-[-4px] bg-red-600 p-3 w-1 h-1 rounded-full flex justify-center items-center text-sm text-white
-
-	}
-	.contact{
-		@apply  lg:flex items-center gap-1 font-extendfont2 font-semibold hidden sm:px-4 hover:bg-gray-100 rounded-full
-	}
-	.minihead{
-		@apply text-xl border-b-2 my-3 font-extendfont5
-	}
-	.forunderline{
-		@apply relative after:absolute my-4 text-xl after:top-7 after:left-0 after:bg-white after:h-[2px]
-	}
-	.footerli{
-		@apply text-xl bg-gray-900 p-2 rounded-full flex hover:bg-slate-800 items-center gap-2
-	}
-	/* for go to top */
-	.goTopStyle0{
-		@apply h-screen absolute right-16 md:right-24 z-50 
-	}
-	.goTopStyle1{
-		@apply fixed bg-gradient-to-l hover:bg-gradient-to-r from-violet-800 to-fuchsia-500 md:p-3 p-2 py-3 rounded-t-full rounded-b-2xl duration-1000 cursor-pointer text-white transition ease-in-out hover:scale-105
-	}
-	.goTopStyle2{
-		@apply flex items-center flex-col font-extendfont6 uppercase tracking-widest duration-1000 transition ease-in-out text-sm gap-1
-	}
-	
+@layer components {
+    .list {
+        @apply relative after:absolute after:w-0 after:top-6 after:left-0 after:bg-black hover:after:w-full after:duration-300  cursor-pointer  after:h-[2px] font-semibold font-extendfont2;
+    }
+    .actives {
+        @apply relative after:absolute after:w-full after:top-6 after:left-0 after:bg-black after:h-[2px] font-extendfont2 font-semibold;
+    }
+    .cart {
+        @apply absolute right-[2px] top-[-4px] bg-red-600 p-2.5 w-1 h-1 rounded-full flex justify-center items-center text-sm text-white;
+    }
+    .contact {
+        @apply lg:flex items-center gap-1 font-extendfont2 font-semibold hidden sm:px-4 hover:bg-gray-100 rounded-full;
+    }
+    .minihead {
+        @apply text-xl border-b-2 my-3 font-extendfont5;
+    }
+    .forunderline {
+        @apply relative after:absolute my-4 text-xl after:top-7 after:left-0 after:bg-white after:h-[2px];
+    }
+    .footerli {
+        @apply text-xl bg-gray-900 p-2 rounded-full flex hover:bg-slate-800 items-center gap-2;
+    }
+    /* for go to top */
+    .goTopStyle0 {
+        @apply h-screen absolute right-16 md:right-24 z-50;
+    }
+    .goTopStyle1 {
+        @apply fixed hover:bg-white bg-gray-700 hover:text-black p-2 md:p-3 rounded-full duration-500 hover:border border-gray-300 cursor-pointer text-white transition ease-in-out hover:scale-105;
+    }
+    .goTopStyle2 {
+        @apply flex items-center flex-col font-extendfont6 uppercase tracking-widest duration-500 transition ease-in-out text-sm gap-1;
+    }
 }
-@layer utilities{
-	.go{
-		top: 40rem;
-		opacity: 100%;
-		transition: 1s;
-	}
-	.up{
-		top: 0;
-		opacity: 0;
-		transition: 1s;
-	}
-} 
-.slick-track{
-	display: flex;
-	gap: 10px;
-	
+@layer utilities {
+    .go {
+        top: 40rem;
+        opacity: 100%;
+        transition: 1s;
+    }
+    .up {
+        top: 0;
+        opacity: 0;
+        transition: 1s;
+    }
 }
-.slick-next,.slick-prev{
-	background-color: rgb(70, 70, 70) !important;
-	height: 50px;
-	width: 50px;
-	/* padding: 15px 2 20px; */
-	color: white;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	z-index: 10;
-	margin: auto;
-	border-radius: 50%;
-	top: 45%;
+.slick-track {
+    display: flex;
+    gap: 10px;
 }
-.slick-next{
-	right: 20px;
+.slick-next,
+.slick-prev {
+    background-color: rgb(70, 70, 70) !important;
+    height: 40px;
+	width: 40px;
+    padding: 13px;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+    margin: auto;
+    border-radius: 50%;
+    top: 40%;
 }
-.slick-prev{
-left: 20px;
+.slick-next {
+    right: 2px;
 }
-.slick-next:hover,.slick-prev:hover{
-	background-color: rgb(0, 0, 0) !important;
+.slick-prev {
+    left: 2px;
 }
-.forhide .slick-track{
-	display: flex;
-	gap: 15px;
+.slick-next:hover,
+.slick-prev:hover {
+    background-color: rgb(0, 0, 0) !important;
+	color: whitesmoke;
 }
-.forhide .slick-prev{
-	visibility: hidden;
+.forhide .slick-track {
+    display: flex;
+    gap: 15px;
 }
-.forhide .slick-next{
-	visibility: hidden;
+.forhide .slick-prev {
+    visibility: hidden;
 }
-.active:hover .activetop{
-	opacity: 0.5;
-	transition: ease-in-out 0.5s;
-
+.forhide .slick-next {
+    visibility: hidden;
 }
-.activetop{
-	transition: ease-in-out 0.5s;
+.active:hover .activetop {
+    opacity: 0.5;
+    transition: ease-in-out 0.5s;
+}
+.activetop {
+    transition: ease-in-out 0.5s;
 }

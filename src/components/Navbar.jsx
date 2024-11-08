@@ -17,7 +17,7 @@ const Navbar = () => {
 
 	useEffect(() => {
 		window.addEventListener('scroll', () => {
-			if (window.scrollY > 300) {
+			if (window.scrollY > 0) {
 				setFixedNav(true)
 			} else {
 				setFixedNav(false)
@@ -31,9 +31,9 @@ const Navbar = () => {
 
 
 	return (
-		<div className={`z-[100] w-full duration-1000 bg-white ${fixedNav ? 'fixed top-0 ' : 'top-[-5rem]'}`}>
-			<nav className='shadow-lg relative '>
-				<div className='flex justify-between py-3 items-center px-2  sm:px-10 border-b-2 border-gray-500 2xl:px-[15%]'>
+		<div className={`z-[100] w-full transition-all ease-in-out border-b duration-1000 bg-white ${fixedNav ? 'fixed top-0 ' : 'top-[-5rem]'}`}>
+			<nav className=' relative '>
+				<div className='flex justify-between py-3 items-center px-2  sm:px-10 border-b border-gray-300 2xl:px-[15%]'>
 					<div className='flex'>
 						<button >
 							<NavLink className='contact py-2' to='/contact'>
@@ -52,8 +52,8 @@ const Navbar = () => {
 					<NavLink to='/cart'>
 						<div className='flex items-center gap-1 relative cursor-pointer px-4 py-2 hover:bg-gray-100 rounded-full'>
 							<button className='font-semibold font-extendfont2'>Cart</button>
-							<img className='w-6' src={cart} />
-							<div className='cart'>{getTotalCartItems()}</div>
+							<img className='w-5' src={cart} />
+							<div className='cart text-xs'>{getTotalCartItems()}</div>
 						</div>
 					</NavLink>
 				</div>

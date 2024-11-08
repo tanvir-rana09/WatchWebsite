@@ -3,6 +3,7 @@ import Imgcard from './Imgcard'
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { useState, useEffect } from 'react';
+import { MdOutlineArrowBackIosNew, MdOutlineArrowForwardIos } from 'react-icons/md';
 
 const Slickcaousel = ({ images }) => {
 	const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -39,6 +40,9 @@ const Slickcaousel = ({ images }) => {
 		autoplaySpeed: 2000,
 		pauseOnHover: true,
 		speed: 1000,
+		prevArrow: <MdOutlineArrowBackIosNew />,
+		nextArrow: <MdOutlineArrowForwardIos />
+
 	};
 
 
@@ -46,7 +50,7 @@ const Slickcaousel = ({ images }) => {
 		<div >
 			<Slider {...settings}>
 				{
-					images.map((img, i) => {
+					images?.map((img, i) => {
 						return <Imgcard key={i} img={img.img} name={img.name} price={img.oldPrice} id={img.id} />
 					})
 				}

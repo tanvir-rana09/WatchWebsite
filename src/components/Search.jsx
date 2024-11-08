@@ -12,7 +12,7 @@ const Search = () => {
 				value={searchvalue}
 				className="bg-transparent outline-none w-full" type="text" name="text" placeholder="Search Your Products... " />
 				<NavLink to='/searchitems'>
-					<button className="text-2xl pl-2 flex"><IoSearch /></button>
+					<button className="text-2xl pl-2 flex"><IoSearch size={18} /></button>
 				</NavLink>
 			</div>
 		</div>
