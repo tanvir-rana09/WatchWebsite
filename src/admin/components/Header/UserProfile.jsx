@@ -1,9 +1,20 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import ClickOutside from './ClickOutSide';
+import { getLocalStorageItem } from '../../../utils/setWithExpire';
+import { useAuth } from '../../../context/useAuth';
 
 const DropdownUser = () => {
 	const [dropdownOpen, setDropdownOpen] = useState(false);
+	const { user } = useAuth();
+	const [admin, setAdmin] = useState();
+	const localUser = getLocalStorageItem("user");
+
+
+	useEffect(() => {
+		setAdmin(user ? user : localUser);
+	}, [localUser,user]);
+
 
 	return (
 		<ClickOutside onClick={() => setDropdownOpen(false)} className="relative">
@@ -12,15 +23,17 @@ const DropdownUser = () => {
 				className="flex items-center gap-4"
 				to="#"
 			>
-				<span className="hidden text-right lg:block">
-					<span className="block text-sm font-medium text-black ">
-						Thomas Anree
+				<span className="hidden text-right lg:block ">
+					<span className="block font-medium text-black ">
+						{admin?.name}
 					</span>
-					<span className="block text-xs">Admin</span>
+					<span className="block text-xs -mt-1">{admin?.role}</span>
 				</span>
 
-				<span className="h-12 w-12 rounded-full">
-					<img src={'fghfg'} alt="User" />
+				<span className="h-10 w-10 rounded-full overflow-hidden">
+					{
+						admin?.profile ? <img src={admin?.profile} alt="User" /> : <span className="h-10 w-10 bg-gray-300 block animate-pulse rounded-full "></span>
+					}
 				</span>
 
 				<svg
@@ -43,7 +56,7 @@ const DropdownUser = () => {
 			{/* <!-- Dropdown Start --> */}
 			{dropdownOpen && (
 				<div
-					className={`absolute top-[48px] right-0 mt-4 flex w-[18rem] flex-col rounded border border-stroke bg-white drop-shadow-sm dark:border-strokedark dark:bg-boxdark`}
+					className={`absolute top-[40px] right-0 mt-4 flex w-[18rem] flex-col rounded border border-stroke bg-white drop-shadow-sm dark:border-strokedark dark:bg-boxdark`}
 				>
 					<ul className="flex flex-col gap-5 border-b border-stroke px-6 py-4 dark:border-strokedark">
 						<li>

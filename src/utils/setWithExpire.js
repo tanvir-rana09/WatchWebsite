@@ -1,6 +1,6 @@
-import apiCall from "./apiCall";
 
-function setLocalStorageItem(key, value, ttl=7200000) {
+
+function setLocalStorageItem(key, value, ttl = 7200000) {
     const now = new Date();
 
     // `item` is an object which contains the original value and the expiry time
@@ -8,7 +8,7 @@ function setLocalStorageItem(key, value, ttl=7200000) {
         value: value,
         expiry: now.getTime() + ttl,
     };
-	// const string = typeof value == "string" ? value:
+    // const string = typeof value == "string" ? value:
     localStorage.setItem(key, JSON.stringify(item));
 }
 
@@ -25,10 +25,7 @@ function getLocalStorageItem(key) {
 
     // Compare the expiry time of the item with the current time
     if (now.getTime() > item.expiry) {
-        // If the item is expired, remove it from storage and return null
-        apiCall("/logout", "get").then(() => {
-            localStorage.removeItem(key);
-        });
+        localStorage.removeItem(key);
         return null;
     }
     return item?.value;

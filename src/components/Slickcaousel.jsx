@@ -39,7 +39,7 @@ const Slickcaousel = ({ images }) => {
 		autoplay: true,
 		autoplaySpeed: 2000,
 		pauseOnHover: true,
-		speed: 1000,
+		speed: 500,
 		prevArrow: <MdOutlineArrowBackIosNew />,
 		nextArrow: <MdOutlineArrowForwardIos />
 

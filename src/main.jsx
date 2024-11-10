@@ -11,15 +11,15 @@ import { AuthProvider } from './context/AuthProvider.jsx';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <WatchContextProvider>
-      <AuthProvider>
+    <AuthProvider>
+      <WatchContextProvider>
         <Router>
           <AppRoutes />
           <ToastContainer
             autoClose={3000}
             hideProgressBar />
         </Router>
-      </AuthProvider>
-    </WatchContextProvider>
+      </WatchContextProvider>
+    </AuthProvider>
   </React.StrictMode>
 );

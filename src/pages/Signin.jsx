@@ -4,16 +4,20 @@ import Button from '../admin/components/Button';
 import useApi from '../utils/useApi';
 import { Flip, toast } from 'react-toastify';
 import { setLocalStorageItem } from '../utils/setWithExpire';
+import { useAuth } from '../context/useAuth';
 
 const SignIn = () => {
   const { register, handleSubmit } = useForm();
   const { loading, callApi } = useApi('/login', 'POST');
   const navigate = useNavigate();
+  const { setIsAuthenticated, setIsAdmin, setUser } = useAuth();
   const onSubmit = async (formData) => {
     const data = await callApi(formData);
-    console.log(data);
-    
     if (data?.status == 200) {
+      setUser(data?.user)
+      setLocalStorageItem('token', data?.token);
+      setLocalStorageItem('user', data?.user);
+      setIsAuthenticated(true)
       toast.success('Login Successfull!',
         {
           position: "top-center",
@@ -27,9 +31,10 @@ const SignIn = () => {
           transition: Flip
         })
       if (data?.user?.role == 'admin') {
-        setLocalStorageItem('token',data?.token);
-        navigate('/admin')
+        setIsAdmin(true);
+        navigate('/admin/products')
       } else navigate('/')
+
     } else {
       toast.error(data?.error)
     }

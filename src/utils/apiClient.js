@@ -2,7 +2,7 @@ import axios from 'axios';
 import { getLocalStorageItem } from './setWithExpire';
 
 const apiClient = axios.create({
-  baseURL: 'http://127.0.0.1:8000/api', // Replace with your API URL
+  baseURL: import.meta.env.VITE_APP_BASE_URL, // Replace with your API URL
   headers: {
     'Content-Type': 'application/json',
   },
