@@ -1,8 +1,9 @@
 import React from 'react'
+import { toast } from 'react-toastify'
 
 const AdminProducts = () => {
   return (
-	<div>AdminProducts</div>
+	<div onClick={()=>toast.success("hello")}>AdminProducts</div>
   )
 }
 

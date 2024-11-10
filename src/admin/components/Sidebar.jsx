@@ -5,11 +5,12 @@ import Logo from '../../components/Logo';
 import WhiteLogo from '../../assets/Images/BannerImg/wall-clock white.png'
 import useApi from '../../utils/useApi';
 import { toast } from 'react-toastify';
+import { useAuth } from '../../context/useAuth';
 
 const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
 	const location = useLocation();
 	const { pathname } = location;
-
+	const {loading } = useAuth();
 	const trigger = useRef(null);
 	const sidebar = useRef(null);
 	const navigate = useNavigate()
@@ -55,6 +56,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
 
 	const logout = async () => {
 		const data = await callApi();
+		console.log(data?.message);
+		
 		if (data?.status == 200) {
 			localStorage.removeItem('token')
 			localStorage.removeItem('user')
@@ -71,7 +74,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
 	return (
 		<aside
 			ref={sidebar}
-			className={`absolute left-0 text-white top-0 pt-10 z-50 flex h-screen w-[17rem] flex-col overflow-y-hidden bg-black duration-300 ease-linear dark:bg-boxdark lg:static lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+			className={`${!loading&&'absolute'} left-0 text-white top-0 pt-10 z-10 flex h-screen w-[17rem] flex-col overflow-y-hidden bg-black duration-300 ease-linear dark:bg-boxdark lg:static lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'
 				}`}
 		>
 			{/* <!-- SIDEBAR HEADER --> */}

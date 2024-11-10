@@ -2,10 +2,14 @@ import { useState } from 'react'
 import Sidebar from './admin/components/Sidebar';
 import Header from './admin/components/Header/Header';
 import { Outlet } from 'react-router-dom';
-
+import { useAuth } from './context/useAuth';
+import Loader from './Common/Loading';
 const Admin = () => {
 	const [sidebarOpen, setSidebarOpen] = useState(false);
-
+	const { loading } = useAuth();
+	if (loading) {
+		return <Loader />;
+	}
 	return (
 
 		<div className="dark:bg-boxdark-2 dark:text-bodydark bg-[#F1F5F9]">
@@ -25,6 +29,7 @@ const Admin = () => {
 					<main>
 						<div className="mx-auto p-4 md:p-6 2xl:p-10">
 							<Outlet />
+							
 						</div>
 					</main>
 
