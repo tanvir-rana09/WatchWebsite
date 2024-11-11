@@ -42,6 +42,12 @@
     .goTopStyle2 {
         @apply flex items-center flex-col font-extendfont6 uppercase tracking-widest duration-500 transition ease-in-out text-sm gap-1;
     }
+    .adminlayout {
+        @apply rounded p-5 md:p-10 bg-white shadow
+    }
+    .ant-select-selector{
+        @apply !p-10 !mr-10
+    }
 }
 @layer utilities {
     .go {
@@ -102,3 +108,9 @@
 .activetop {
     transition: ease-in-out 0.5s;
 }
+.se-menu-list .txt,.se-placeholder{
+    font-size: 16px !important;
+    font-family: "Rethink Sans";
+}
+
+

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import useApi from '../utils/useApi';
-import Button from '../admin/components/Button';
+import Button from '../admin/components/Buttons/Button';
 import { Bounce, toast } from 'react-toastify';
 
 const SignUp = () => {

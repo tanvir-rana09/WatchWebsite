@@ -1,20 +1,38 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import ClickOutside from './ClickOutSide';
 import { getLocalStorageItem } from '../../../utils/setWithExpire';
 import { useAuth } from '../../../context/useAuth';
+import useApi from '../../../utils/useApi';
+import { toast } from 'react-toastify';
 
 const DropdownUser = () => {
 	const [dropdownOpen, setDropdownOpen] = useState(false);
 	const { user } = useAuth();
 	const [admin, setAdmin] = useState();
 	const localUser = getLocalStorageItem("user");
-
-
+	const { callApi, error } = useApi('/auth/logout', 'GET');
+const navigate = useNavigate();
 	useEffect(() => {
 		setAdmin(user ? user : localUser);
 	}, [localUser,user]);
 
+	const logout = async () => {
+		const data = await callApi();
+		
+		if (data?.status == 200) {
+			localStorage.removeItem('token')
+			localStorage.removeItem('user')
+			toast.success(data?.message)
+			navigate('/signin');
+		}
+		
+		if (error) {
+			toast.error(error?.data?.message);
+			localStorage.removeItem('token');
+			localStorage.removeItem('user');
+		}
+	}
 
 	return (
 		<ClickOutside onClick={() => setDropdownOpen(false)} className="relative">
@@ -27,7 +45,7 @@ const DropdownUser = () => {
 					<span className="block font-medium text-black ">
 						{admin?.name}
 					</span>
-					<span className="block text-xs -mt-1">{admin?.role}</span>
+					<span className="block text-xs text-gray-500 -mt-1">{admin?.role}</span>
 				</span>
 
 				<span className="h-10 w-10 rounded-full overflow-hidden">
@@ -111,7 +129,7 @@ const DropdownUser = () => {
 							</Link>
 						</li>
 					</ul>
-					<button className="flex items-center gap-3.5 px-6 py-4 text-sm font-medium duration-300 ease-in-out hover:text-blue lg:text-base">
+					<button onClick={logout} className="flex items-center gap-3.5 px-6 py-4 text-sm font-medium duration-300 ease-in-out hover:text-blue lg:text-base">
 						<svg
 							className="fill-current"
 							width="22"

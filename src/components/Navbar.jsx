@@ -61,7 +61,7 @@ const Navbar = () => {
 							user ? <span className="h-8 w-8 rounded-full overflow-hidden">
 								<img src={user.profile} alt="User" />
 							</span> :
-								<NavLink className='contact py-2' to='/signin'>
+								<NavLink className='py-2' to='/signin'>
 									Signin
 								</NavLink>
 						}

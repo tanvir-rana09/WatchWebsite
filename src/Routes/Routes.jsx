@@ -17,6 +17,7 @@ import Orders from '../admin/pages/Orders.jsx';
 import ProtectedRoute from './ProtectedRoute.jsx';
 import NoneProtectedRoute from './NoneProtectedRoute.jsx';
 import { AuthProvider } from '../context/AuthProvider.jsx';
+import AddProducts from '../admin/pages/AddProducts.jsx';
 
 const AppRoutes = () => (
 	<AuthProvider>
@@ -43,9 +44,11 @@ const AppRoutes = () => (
 			<Route path="/admin" element={<Admin />}>
 				<Route index element={<ProtectedRoute ><Dashboard /></ProtectedRoute>} />
 				<Route path="/admin/products" element={<ProtectedRoute ><AdminProducts /></ProtectedRoute>} />
+				<Route path="/admin/products/add" element={<ProtectedRoute ><AddProducts /></ProtectedRoute>} />
 				<Route path="/admin/orders" element={<ProtectedRoute ><Orders /></ProtectedRoute>} />
 				<Route path="/admin/categories" element={<ProtectedRoute ><Orders /></ProtectedRoute>} />
 			</Route>
+			
 		</Routes>
 	</AuthProvider>
 );

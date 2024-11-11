@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "antd": "^5.21.6",
     "axios": "^1.7.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -18,7 +19,9 @@
     "react-router-dom": "^6.21.1",
     "react-slick": "^0.29.0",
     "react-toastify": "^10.0.6",
-    "slick-carousel": "^1.8.1"
+    "slick-carousel": "^1.8.1",
+    "suneditor": "^2.47.0",
+    "suneditor-react": "^3.6.1"
   },
   "devDependencies": {
     "@types/react": "^18.2.43",

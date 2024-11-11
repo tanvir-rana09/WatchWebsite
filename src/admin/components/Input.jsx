@@ -1,15 +1,19 @@
-import React, { FC } from 'react';
-import { Controller, Control, FieldValues } from 'react-hook-form';
+import React, { useState } from 'react';
+import { Controller } from 'react-hook-form';
+import SunEditor from 'suneditor-react';
+import 'suneditor/dist/css/suneditor.min.css'; // Import SunEditor's CSS
+
 // Reusable input field component
 const InputField = ({
-  type,
+  type = 'text',
   name,
-  control,
+  control = null,
   placeholder,
   options,
-  error,
+  error = '',
   className = '',
 }) => {
+  const [isChecked, setIsChecked] = useState(false);
   const renderInputField = (field) => {
     switch (type) {
       case 'textarea':
@@ -35,19 +39,66 @@ const InputField = ({
         );
       case 'checkbox':
         return (
-          <input
-            type="checkbox"
+          <label
+            htmlFor={name}
+            className="flex cursor-pointer select-none items-center"
+          >
+            <div className="relative">
+              <input
+                id={name}
+                className="sr-only"
+                {...field}
+              />
+              <div
+                className={`box mr-4 flex h-[18px] w-[18px] items-center justify-center rounded-full border border-blue ${isChecked && '!border-4'
+                  }`}
+              >
+                <span className="h-2.5 w-2.5 rounded-full bg-white dark:bg-transparent"></span>
+              </div>
+            </div>
+            {placeholder}
+          </label>
+        );
+      case 'editor':
+        return (
+          <SunEditor
             {...field}
-            className={` ${error ? 'border-red-500' : ''} ${className}`}
+            setOptions={{
+              height: 400,
+              defaultStyle: "font-family: 'Rethink Sans'; font-size: 16px;",
+              buttonList: [
+                ["undo", "redo"],
+                ["font", "fontSize", "formatBlock"],
+                ["bold", "underline", "italic", "strike", "subscript", "superscript"],
+                ["fontColor", "hiliteColor", "textStyle"],
+                ["removeFormat"],
+                ["outdent", "indent"],
+                ["align", "horizontalRule", "list", "lineHeight"],
+                ["table", "link", "image", "video", "audio"],
+                ["fullScreen", "showBlocks", "codeView"],
+                ["preview", "print"],
+                ["template"],
+              ],
+              // Additional custom options
+              font: ["Rethink Sans", "Arial", "Comic Sans MS", "Courier New", "Impact", "Georgia", "Verdana"],
+              formats: ["p", "blockquote", "h1", "h2", "h3", "h4", "h5", "h6"],
+              imageFileInput: true,
+              videoFileInput: true,
+              audioFileInput: true,
+            }}
+            placeholder={placeholder}
+            onChange={field.onChange}
+            className={`w-full ${error ? 'border-red-500' : 'border-gray-300'} ${className}`}
           />
         );
+        
       default:
         return (
           <input
             type={type}
             {...field}
             placeholder={placeholder}
-            className={`w-full rounded-lg border-2 border-stroke bg-transparent py-3 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary ${error ? 'border-red-500' : 'border-gray-300'} ${className}`}
+            className={`w-full rounded border border-gray-300 focus:ring-2 ring-blue focus:border-none bg-transparent py-3 pl-6 pr-10 text-black outline-none focus:border-blue focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white ${error ? 'border-red-500' : 'border-gray-300'} ${className}`}
           />
         );
     }

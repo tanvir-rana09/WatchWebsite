@@ -56,7 +56,6 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
 
 	const logout = async () => {
 		const data = await callApi();
-		console.log(data?.message);
 		
 		if (data?.status == 200) {
 			localStorage.removeItem('token')
@@ -478,7 +477,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
 									</clipPath>
 								</defs>
 							</svg>
-							Logout
+							Log out
 						</div>
 					</div>
 				</nav>

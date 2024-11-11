@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
-import Button from '../admin/components/Button';
+import Button from '../admin/components/Buttons/Button';
 import useApi from '../utils/useApi';
 import { Flip, toast,} from 'react-toastify';
 import { setLocalStorageItem } from '../utils/setWithExpire';
@@ -14,8 +14,6 @@ const SignIn = () => {
   const onSubmit = async (formData) => {
     const data = await callApi(formData);
     if (data?.status == 200) {
-      console.log(toast);
-
       toast.success('Login Successfull!',
         {
           position: "top-center",
@@ -53,7 +51,7 @@ const SignIn = () => {
                 <span className="mb-1.5 block font-medium">Start for free</span>
                 <h2 className="mb-9 text-2xl font-bold text-black  sm:text-title-xl2">
                   Sign In to{' '}
-                  <span className="text-purple/95 font-semibold">
+                  <span onClick={()=>toast.success('k')} className="text-purple/95 font-semibold">
                     StarCommerce
                   </span>
                 </h2>
@@ -135,6 +133,7 @@ const SignIn = () => {
                     >
                       Sign in
                     </Button>
+                    
                   </div>
 
                   <div className="mt-6 text-center">

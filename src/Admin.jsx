@@ -4,6 +4,7 @@ import Header from './admin/components/Header/Header';
 import { Outlet } from 'react-router-dom';
 import { useAuth } from './context/useAuth';
 import Loader from './Common/Loading';
+import { ToastContainer } from 'react-toastify';
 const Admin = () => {
 	const [sidebarOpen, setSidebarOpen] = useState(false);
 	const { loading } = useAuth();
@@ -29,7 +30,9 @@ const Admin = () => {
 					<main>
 						<div className="mx-auto p-4 md:p-6 2xl:p-10">
 							<Outlet />
-							
+							{/* <ToastContainer
+								autoClose={3000}
+								hideProgressBar /> */}
 						</div>
 					</main>
 
