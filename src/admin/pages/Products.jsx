@@ -111,11 +111,13 @@ const AdminProducts = () => {
               ]}
               placeholder="Search to Select status"
               width={250}
+              showSearch={false}
               onChange={(value) => handleChange(value, 'status')}
             />
             <AntSelect
               control={control}
               name={'sort_by'}
+              showSearch={false}
               options={[
                 { value: 'price_asc', label: 'Price low to high' },
                 { value: 'price_desc', label: "Price high to low" },

@@ -10,15 +10,11 @@ import apiCall from "../../utils/apiCall";
 import Button from "../components/Buttons/Button";
 import { IoMdAdd } from "react-icons/io";
 import { toast } from "react-toastify";
+import { debounce } from "lodash";
 
 const EditProduct = () => {
-	const { control, handleSubmit, setValue, reset, getValues } = useForm();
+	const { control, handleSubmit, setValue, reset, watch } = useForm();
 	const [apiErrors, setApiErrors] = useState({});
-	const [selectedValue, setSelectedValue] = useState({
-		item_type: 'men',
-		status: 1,
-		category_id: null,
-	});
 	const [initialData, setInitialData] = useState({});
 	const [category, setCategory] = useState([]);
 	const [subCategory, setSubCategory] = useState([]);
@@ -44,48 +40,51 @@ const EditProduct = () => {
 		apiCall(`/product?id=${id}`, "get").then((data) => {
 			if (data?.data) {
 				const productData = data.data[0];
-				setInitialData(productData);  // Store initial data for change detection
-				// Set each field with the product data from the API
+				setInitialData(productData);  
 				Object.keys(productData).forEach((field) => {
 					setValue(field, productData[field]);
 				});
-				setSelectedValue({
-					item_type: productData.item_type,
-					status: productData.status,
-					category_id: productData.category_id,
-				});
+				
 			}
 		});
 	}, [id, setValue]);
 
-	// Fetch subcategories based on selected category
+	const categoryId = watch('category_id');
 	useEffect(() => {
-		if (selectedValue.category_id) {
-			apiCall(`/category?parent_id=${selectedValue.category_id}`, "get").then((data) => {
+		// Define a debounced API call
+		const fetchSubCategories = debounce(async (id) => {
+			try {
+				const data = await apiCall(`/category?parent_id=${id}`, "get");
 				if (data) {
-					const apiSubCategory = data?.data[0]?.subcategory?.map((category) => ({
-						value: category?.id,
-						label: category?.name,
+					const apiSubCategory = data.data[0]?.subcategory?.map((category) => ({
+						value: category.id,
+						label: category.name,
 					}));
-					setSubCategory(apiSubCategory || []);
+
+					// Update state only if data is different
+					setSubCategory((prev) => {
+						const isDataChanged = JSON.stringify(prev) !== JSON.stringify(apiSubCategory);
+						return isDataChanged ? apiSubCategory : prev;
+					});
 				}
-			});
+			} catch (error) {
+				console.error("Error fetching subcategories:", error);
+			}
+		}, 300); // Adjust the debounce time as needed
+
+		// Fetch data only if categoryId is defined
+		if (categoryId) {
+			fetchSubCategories(categoryId);
 		}
-	}, [selectedValue.category_id]);
 
-	// Handle selection changes
-	const handleChange = (value, name) => {
-		setSelectedValue((prevState) => ({
-			...prevState,
-			[name]: value,
-		}));
-		setValue(name, value); // Update form value
-	};
+		// Cleanup debounce on unmount
+		return () => fetchSubCategories.cancel();
+	}, [categoryId]); 
 
-	// Form submission handler
+
 	const onSubmit = async (formData) => {
 		const changedData = {};
-console.log(formData);
+		console.log(formData);
 
 		// Compare each form field with initial data to find changes
 		Object.keys(formData).forEach((key) => {
@@ -98,9 +97,10 @@ console.log(formData);
 			toast.info("No changes detected", { position: "top-center" });
 			return;
 		}
+console.log(changedData);
 
 		const data = await callApi(changedData);
-		if (data?.status === 200) {
+		if (data?.status == 200) {
 			toast.success("Product updated successfully", { position: "top-center" });
 			reset();
 			navigate("/admin/products");
@@ -117,8 +117,7 @@ console.log(formData);
 			setApiErrors(errorsFromApi);
 		} else setApiErrors({});
 	}, [error]);
-console.log(getValues());
-console.log(selectedValue);
+
 
 	return (
 		<div>
@@ -131,7 +130,7 @@ console.log(selectedValue);
 					</div>
 					<InputField error={apiErrors?.short_desc} required label="Short Description" name="short_desc" type="textarea" control={control} placeholder="Short Description" />
 					<InputField error={apiErrors?.long_desc} label="Long Description" name="long_desc" type="editor" control={control} placeholder="Long Description" />
-					<FileInputField defaultValue={getValues().images} error={apiErrors?.images} label="Product Images" multiple name="images[]" control={control} />
+					<FileInputField defaultValue={watch('images')} error={apiErrors?.images} label="Product Images" multiple name="images[]" control={control} />
 				</div>
 				<div className="max-h-fit w-full shadow bg-white p-5 md:p-10 rounded space-y-5">
 					<CheckboxGroup error={apiErrors?.item_type}
@@ -142,8 +141,7 @@ console.log(selectedValue);
 							{ value: 'women', label: 'Women' },
 							{ value: 'clock', label: 'Clock' },
 						]}
-						selectedValue={selectedValue.item_type}
-						onChange={(value) => handleChange(value, 'item_type')}
+						setValue={setValue}
 						label="Select Item Type"
 					/>
 					<CheckboxGroup error={apiErrors?.status}
@@ -153,8 +151,7 @@ console.log(selectedValue);
 							{ value: 1, label: 'Publish' },
 							{ value: 0, label: 'Hidden' },
 						]}
-						selectedValue={selectedValue.status}
-						onChange={(value) => handleChange(value, 'status')}
+						setValue={setValue}
 						label="Select Status Type"
 					/>
 					<AntSelect error={apiErrors?.category_id}
@@ -163,23 +160,20 @@ console.log(selectedValue);
 						name="category_id"
 						control={control}
 						options={category}
-						defaultValue={selectedValue.category_id}
 						placeholder="Search to Select"
 						width="100%"
-						onChange={(value) => handleChange(value, 'category_id')}
 					/>
 					<AntSelect error={apiErrors?.subcategory_id}
 						label="Select Sub Category"
 						disabled={!subCategory.length}
 						name="subcategory_id"
 						control={control}
-						defaultValue={getValues().subcategory_id}
 						options={subCategory}
 						placeholder="Search to Select"
 						width="100%"
-						onChange={(value) => setValue('subcategory_id', value)}
 					/>
-					<FileInputField defaultValue={[getValues().banner]} error={apiErrors?.banner} required label="Product Banner" name="banner" control={control} />
+					<FileInputField defaultValue={[watch('banner')]} error={apiErrors?.banner} required label="Product Banner" name="banner" control={control} />
+
 					<Button loading={loading} type="submit" className="flex items-center justify-center gap-2 w-full">
 						<IoMdAdd size={20} />
 						Update Product

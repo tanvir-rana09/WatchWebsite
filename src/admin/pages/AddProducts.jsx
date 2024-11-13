@@ -10,31 +10,20 @@ import Button from "../components/Buttons/Button"
 import { IoMdAdd } from "react-icons/io"
 import { toast } from "react-toastify"
 import { useNavigate } from "react-router-dom"
+import { debounce } from "lodash"
 
 const AddProducts = () => {
-	const { control, handleSubmit, setValue, reset } = useForm({
+	const { control, handleSubmit, setValue, reset, watch } = useForm({
 		defaultValues: {
 			item_type: 'men',
 			status: 1,
 		},
 	})
 	const [apiErrors, setApiErrors] = useState({});
-	const [selectedValue, setSelectedValue] = useState({
-		item_type: 'men',
-		status: 1,
-		category_id: null
-	});
 	const [category, setCategory] = useState([]);
 	const [subCategory, setSubCategory] = useState([]);
 
-	// Handle selection changes
-	const handleChange = (value, name) => {
-		setSelectedValue((prevState) => ({
-			...prevState,
-			[name]: value,
-		}));
-		setValue(name, value); // Update form value
-	};
+
 
 	// Item types and statuses
 	const itemTypes = [
@@ -55,20 +44,39 @@ const AddProducts = () => {
 		});
 	}, []);
 
-	// Fetch subcategories based on selected category
+	const categoryId = watch('category_id');
 	useEffect(() => {
-		if (selectedValue.category_id) {
-			apiCall(`/category?parent_id=${selectedValue.category_id}`, "get").then((data) => {
+		// Define a debounced API call
+		const fetchSubCategories = debounce(async (id) => {
+			try {
+				const data = await apiCall(`/category?parent_id=${id}`, "get");
 				if (data) {
-					const apiSubCategory = data?.data[0]?.subcategory?.map((category) => ({
-						value: category?.id, label: category?.name
+					const apiSubCategory = data.data[0]?.subcategory?.map((category) => ({
+						value: category.id,
+						label: category.name,
 					}));
-					setSubCategory(apiSubCategory || []);
+
+					// Update state only if data is different
+					setSubCategory((prev) => {
+						const isDataChanged = JSON.stringify(prev) !== JSON.stringify(apiSubCategory);
+						return isDataChanged ? apiSubCategory : prev;
+					});
 				}
-			});
+			} catch (error) {
+				console.error("Error fetching subcategories:", error);
+			}
+		}, 300); // Adjust the debounce time as needed
+
+		// Fetch data only if categoryId is defined
+		if (categoryId) {
+			fetchSubCategories(categoryId);
 		}
-	}, [selectedValue.category_id]);
-	const { callApi, error,loading } = useApi('/product/add', 'POST');
+
+		// Cleanup debounce on unmount
+		return () => fetchSubCategories.cancel();
+	}, [categoryId]); 
+	
+	const { callApi, error, loading } = useApi('/product/add', 'POST');
 	const navigate = useNavigate()
 	// Form submission handler
 	const onSubmit = async (formdata) => {
@@ -94,18 +102,18 @@ const AddProducts = () => {
 
 
 	}, [error]);
-	console.log(apiErrors);
+
 	return (
 		<div>
 			<form encType="multipart/form-data" className="grid xl:grid-cols-3 gap-5 xl:gap-10" onSubmit={handleSubmit(onSubmit)}>
 				<div className="xl:col-span-2 shadow bg-white p-5 md:p-10 rounded">
-					<InputField error={apiErrors?.name} required label={'Product Name'} name={'name'} type={'text'} control={control} placeholder={ 'Product Name'} />
+					<InputField error={apiErrors?.name} required label={'Product Name'} name={'name'} type={'text'} control={control} placeholder={'Product Name'} />
 					<div className="grid grid-cols-2 gap-5">
-						<InputField error={apiErrors?.price} required label={'Product Price'} name={'price'} type={'number'} control={control} placeholder={ 'Product Price'} />
-						<InputField error={apiErrors?.stock} required label={'Product Stock'} name={'stock'} type={'number'} control={control} placeholder={ 'Product Stock'} />
+						<InputField error={apiErrors?.price} required label={'Product Price'} name={'price'} type={'number'} control={control} placeholder={'Product Price'} />
+						<InputField error={apiErrors?.stock} required label={'Product Stock'} name={'stock'} type={'number'} control={control} placeholder={'Product Stock'} />
 					</div>
-					<InputField error={apiErrors?.short_desc} required label={'Short Description'} name={'short_desc'} type={'textarea'} control={control} placeholder={ 'Short Description'} />
-					<InputField error={apiErrors?.long_desc} label={'Long Description'} name={'long_desc'} type={'editor'} control={control} placeholder={ 'Long Description'} />
+					<InputField error={apiErrors?.short_desc} required label={'Short Description'} name={'short_desc'} type={'textarea'} control={control} placeholder={'Short Description'} />
+					<InputField error={apiErrors?.long_desc} label={'Long Description'} name={'long_desc'} type={'editor'} control={control} placeholder={'Long Description'} />
 					<FileInputField error={apiErrors?.images} label="Product images" multiple name="images[]" control={control} />
 				</div>
 				<div className=" max-h-fit w-full shadow bg-white p-5 md:p-10 rounded space-y-5">
@@ -113,19 +121,17 @@ const AddProducts = () => {
 						control={control}
 						name="item_type"
 						options={itemTypes}
-						selectedValue={selectedValue.item_type}
-						onChange={(value) => handleChange(value, 'item_type')}
+						setValue={setValue}
 						label="Select item type"
 					/>
 					<CheckboxGroup error={apiErrors?.status}
 						control={control}
 						name="status"
+						setValue={setValue}
 						options={[
 							{ value: 1, label: 'Publish' },
 							{ value: 0, label: "Hidden" },
 						]}
-						selectedValue={selectedValue.status}
-						onChange={(value) => handleChange(value, 'status')}
 						label="Select status type"
 					/>
 					<div>
@@ -138,7 +144,6 @@ const AddProducts = () => {
 							options={category}
 							placeholder="Search to Select"
 							width={'100%'}
-							onChange={(value) => handleChange(value, 'category_id')}
 						/>
 					</div>
 					<div>
@@ -151,7 +156,6 @@ const AddProducts = () => {
 							options={subCategory}
 							placeholder="Search to Select"
 							width={'100%'}
-							onChange={(value) => setValue('subcategory_id', value)}
 						/>
 					</div>
 					<FileInputField error={apiErrors?.banner} required label="Product banner" name="banner" control={control} />

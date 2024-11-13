@@ -15,7 +15,6 @@ const AntSelect = forwardRef(({
   label,
   required = false,
   error = '',
-  defaultValue = null,
   ...rest
 }, ref) => (
   <div>
@@ -23,14 +22,13 @@ const AntSelect = forwardRef(({
     <Controller
       name={name}
       control={control}
-      defaultValue={defaultValue}
       render={({ field }) => (
         <Select
+          {...field}
           disabled={disabled}
           ref={ref}
-          value={defaultValue}
+          value={disabled ? "No child category availble" : field.value}
           suffixIcon={<MdOutlineKeyboardArrowDown size={20} />}
-          onChange={(value) => field.onChange(value)} // Handle onChange to update react-hook-form state
           showSearch={showSearch}
           style={{ width, height: '45px', border: 0 }}
           placeholder={placeholder}

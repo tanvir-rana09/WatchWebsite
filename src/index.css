@@ -127,3 +127,7 @@
     margin-bottom: 2px;
     font-weight: 500;
   }
+  .ant-select-selection-item{
+    font-size: 16px !important;
+    font-weight: 500;
+  }

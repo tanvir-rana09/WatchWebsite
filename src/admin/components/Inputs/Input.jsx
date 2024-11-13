@@ -9,7 +9,6 @@ const InputField = forwardRef(({
   name,
   label = '',
   control = null,
-  onChange = null,
   placeholder,
   error = '',
   className = '',
@@ -69,7 +68,7 @@ const InputField = forwardRef(({
             type={type}
             {...field}
             ref={ref}
-            onChange={onChange}
+            // onChange={onChange}
             placeholder={placeholder}
             className={`w-full rounded border  border-gray-300 focus:ring-2 ring-blue focus:border-none bg-transparent py-3 pl-6 pr-10 outline-none focus:border-blue focus-visible:shadow-none text-gray-700 ${error ? 'border-red-500' : 'border-gray-300'} ${className}`}
           />
@@ -81,7 +80,6 @@ const InputField = forwardRef(({
     <div className={`flex flex-col mb-4 ${className}`}>
       <p className='mb-2 font-[500] text-gray-600'>{label } {required && <span className='text-red-500'>{'*'}</span>}</p>
       <Controller
-      
         name={name}
         control={control}
         render={({ field }) => renderInputField(field)}
