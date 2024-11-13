@@ -1,4 +1,4 @@
-
+import { toast } from "react-toastify";
 
 function setLocalStorageItem(key, value, ttl = 7200000) {
     const now = new Date();
@@ -14,7 +14,6 @@ function setLocalStorageItem(key, value, ttl = 7200000) {
 
 function getLocalStorageItem(key) {
     const itemStr = localStorage.getItem(key);
-
     // If the item doesn't exist, return null
     if (!itemStr) {
         return null;
@@ -26,7 +25,9 @@ function getLocalStorageItem(key) {
     // Compare the expiry time of the item with the current time
     if (now.getTime() > item.expiry) {
         localStorage.removeItem(key);
-        return null;
+        localStorage.removeItem(key == "token" ? key : "user");
+        toast.error("your token expired please login");
+        // return <Navigate to={'/signin'} />;
     }
     return item?.value;
 }

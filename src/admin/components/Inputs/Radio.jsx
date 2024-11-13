@@ -1,10 +1,10 @@
-import React from 'react';
+import { forwardRef } from 'react';
 import { Controller } from 'react-hook-form';
 
-const CheckboxGroup = ({ control, name, options, selectedValue, onChange, label }) => {
+const CheckboxGroup = forwardRef(({ error,control, name, options, selectedValue = '', onChange = null, label }, ref) => {
   return (
     <div>
-      <p className="text-gray-700">{label}</p>
+      <p className="inputLabel">{label}</p>
       <div className="flex items-center space-x-4">
         <Controller
           name={name}
@@ -16,13 +16,14 @@ const CheckboxGroup = ({ control, name, options, selectedValue, onChange, label 
                   <input
                     type="checkbox"
                     name={name}
+                    ref={ref}
                     value={option.value}
-                    checked={selectedValue.includes(option.value)}  // Change to handle multiple checkboxes
+                    checked={selectedValue == option.value}  // Change to handle multiple checkboxes
                     onChange={() => onChange(option.value)}  // Update the selected value when changed
                     className="sr-only"
                   />
                   <div
-                    className={`box mr-2 flex h-[18px] w-[18px] items-center justify-center rounded-full border border-blue ${selectedValue==option.value ? '!border-4' : ''
+                    className={`box mr-2 flex h-[18px] w-[18px] items-center justify-center rounded-full border border-blue ${selectedValue == option.value ? '!border-4' : ''
                       }`}
                   >
                     <span className="h-2.5 w-2.5 rounded-full bg-white dark:bg-transparent"></span>
@@ -35,8 +36,10 @@ const CheckboxGroup = ({ control, name, options, selectedValue, onChange, label 
           )}
         />
       </div>
+      {error && <span className="text-red-500 text-sm mt-1">{error}</span>}
     </div>
   );
-};
+});
+CheckboxGroup.displayName = "CheckboxGroup";
 
 export default CheckboxGroup;

@@ -46,7 +46,13 @@
         @apply rounded p-5 md:p-10 bg-white shadow
     }
     .ant-select-selector{
-        @apply !p-10 !mr-10
+        @apply !border-none outline-none ring-0 !p-10
+    }
+    .inputLabel{
+        @apply mb-2 font-[500] text-gray-600
+    }
+    .ant-btn{
+        @apply !bg-blue
     }
 }
 @layer utilities {
@@ -113,4 +119,11 @@
     font-family: "Rethink Sans";
 }
 
-
+  .ant-btn-variant-solid{
+    background-color: blue !important;
+  }
+  .ant-select-selection-placeholder{
+    font-size: 16px !important;
+    margin-bottom: 2px;
+    font-weight: 500;
+  }

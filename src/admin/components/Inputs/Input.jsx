@@ -1,70 +1,40 @@
-import React, { useState } from 'react';
+import { forwardRef } from 'react';
 import { Controller } from 'react-hook-form';
-import SunEditor from 'suneditor-react';
 import 'suneditor/dist/css/suneditor.min.css'; // Import SunEditor's CSS
+import SunEditorWrapper from '../Editor/Suneditor';
 
 // Reusable input field component
-const InputField = ({
+const InputField = forwardRef(({
   type = 'text',
   name,
+  label = '',
   control = null,
+  onChange = null,
   placeholder,
-  options,
   error = '',
   className = '',
-}) => {
-  const [isChecked, setIsChecked] = useState(false);
+  required=false
+}, ref) => {
   const renderInputField = (field) => {
     switch (type) {
       case 'textarea':
         return (
           <textarea
+            ref={ref}
+            rows={7}
             {...field}
             placeholder={placeholder}
-            className={`w-full p-3 border rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 ${error ? 'border-red-500' : 'border-gray-300'} ${className}`}
+            className={`w-full p-3 border rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue ${error ? 'border-red-500' : 'border-gray-300'} ${className}`}
           />
         );
-      case 'select':
-        return (
-          <select
-            {...field}
-            className={`w-full p-3 border rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 ${error ? 'border-red-500' : 'border-gray-300'} ${className}`}
-          >
-            {options?.map((option, index) => (
-              <option key={index} value={option}>
-                {option}
-              </option>
-            ))}
-          </select>
-        );
-      case 'checkbox':
-        return (
-          <label
-            htmlFor={name}
-            className="flex cursor-pointer select-none items-center"
-          >
-            <div className="relative">
-              <input
-                id={name}
-                className="sr-only"
-                {...field}
-              />
-              <div
-                className={`box mr-4 flex h-[18px] w-[18px] items-center justify-center rounded-full border border-blue ${isChecked && '!border-4'
-                  }`}
-              >
-                <span className="h-2.5 w-2.5 rounded-full bg-white dark:bg-transparent"></span>
-              </div>
-            </div>
-            {placeholder}
-          </label>
-        );
+
       case 'editor':
         return (
-          <SunEditor
+          <SunEditorWrapper
+            height='300'
             {...field}
             setOptions={{
-              height: 400,
+              height: 800,
               defaultStyle: "font-family: 'Rethink Sans'; font-size: 16px;",
               buttonList: [
                 ["undo", "redo"],
@@ -86,19 +56,22 @@ const InputField = ({
               videoFileInput: true,
               audioFileInput: true,
             }}
+            setContents={field.value || ''}
+            onChange={(content) => field.onChange(content)}
             placeholder={placeholder}
-            onChange={field.onChange}
             className={`w-full ${error ? 'border-red-500' : 'border-gray-300'} ${className}`}
           />
         );
-        
+
       default:
         return (
           <input
             type={type}
             {...field}
+            ref={ref}
+            onChange={onChange}
             placeholder={placeholder}
-            className={`w-full rounded border border-gray-300 focus:ring-2 ring-blue focus:border-none bg-transparent py-3 pl-6 pr-10 text-black outline-none focus:border-blue focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white ${error ? 'border-red-500' : 'border-gray-300'} ${className}`}
+            className={`w-full rounded border  border-gray-300 focus:ring-2 ring-blue focus:border-none bg-transparent py-3 pl-6 pr-10 outline-none focus:border-blue focus-visible:shadow-none text-gray-700 ${error ? 'border-red-500' : 'border-gray-300'} ${className}`}
           />
         );
     }
@@ -106,7 +79,9 @@ const InputField = ({
 
   return (
     <div className={`flex flex-col mb-4 ${className}`}>
+      <p className='mb-2 font-[500] text-gray-600'>{label } {required && <span className='text-red-500'>{'*'}</span>}</p>
       <Controller
+      
         name={name}
         control={control}
         render={({ field }) => renderInputField(field)}
@@ -114,6 +89,8 @@ const InputField = ({
       {error && <span className="text-red-500 text-sm mt-1">{error}</span>}
     </div>
   );
-};
+});
+
+InputField.displayName = "InputField";
 
 export default InputField;
