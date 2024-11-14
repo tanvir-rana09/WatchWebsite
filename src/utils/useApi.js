@@ -25,7 +25,7 @@ function useApi(endpoint, method = 'GET', config = {}) {
         const dat = await response.data;
         setData(dat);
         responseDataRef.current = response.data;  // Update the ref with the latest data
-        console.log(response.data);
+
 
         return response.data;
       } catch (err) {

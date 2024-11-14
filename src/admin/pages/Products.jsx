@@ -121,8 +121,8 @@ const AdminProducts = () => {
               options={[
                 { value: 'price_asc', label: 'Price low to high' },
                 { value: 'price_desc', label: "Price high to low" },
-                { value: 'latest', label: 'New added' },
-                { value: 'rating', label: "Top rated" },
+                { value: 'latest', label: 'Oldest product on top' },
+                { value: 'rating', label: "Top rated product" },
               ]}
               placeholder="Sort by"
               width={200}

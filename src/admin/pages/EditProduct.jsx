@@ -13,14 +13,14 @@ import { toast } from "react-toastify";
 import { debounce } from "lodash";
 
 const EditProduct = () => {
-	const { control, handleSubmit, setValue, reset, watch } = useForm();
+	const { control, handleSubmit, setValue, reset, watch, getValues } = useForm();
 	const [apiErrors, setApiErrors] = useState({});
 	const [initialData, setInitialData] = useState({});
 	const [category, setCategory] = useState([]);
 	const [subCategory, setSubCategory] = useState([]);
 	const { id } = useParams();
 	const navigate = useNavigate();
-	const { callApi, error, loading } = useApi(`/product/update/${id}`, 'PUT');
+	const { callApi, error, loading } = useApi(`/product/update/${id}`, 'POST');
 
 	// Fetch categories
 	useEffect(() => {
@@ -37,17 +37,40 @@ const EditProduct = () => {
 
 	// Fetch product data by ID and set as default values
 	useEffect(() => {
-		apiCall(`/product?id=${id}`, "get").then((data) => {
-			if (data?.data) {
-				const productData = data.data[0];
-				setInitialData(productData);  
-				Object.keys(productData).forEach((field) => {
-					setValue(field, productData[field]);
-				});
-				
+		const fetchProductData = async () => {
+			try {
+				const data = await apiCall(`/product?id=${id}`, "get");
+
+				if (data?.data) {
+					const productData = data.data[0];
+
+
+					const obj = {
+						name: productData?.name || null,
+						price: productData?.price || null,
+						stock: productData?.stock || null,
+						short_desc: productData?.short_desc || null,
+						long_desc: productData?.long_desc || null,
+						images: productData?.images || [],
+						item_type: productData?.item_type || null,
+						status: productData?.status || null,
+						category_id: productData?.category_id || null,
+						subcategory_id: productData?.subcategory_id || null,
+						banner: productData?.banner || null
+					};
+					setInitialData(obj)
+					Object.keys(obj).forEach((field) => {
+						setValue(field, productData[field]);
+					});
+
+				}
+			} catch (error) {
+				console.error("Error fetching product data:", error);
 			}
-		});
-	}, [id, setValue]);
+		};
+
+		fetchProductData();
+	}, [id, setValue, setInitialData]);
 
 	const categoryId = watch('category_id');
 	useEffect(() => {
@@ -79,25 +102,27 @@ const EditProduct = () => {
 
 		// Cleanup debounce on unmount
 		return () => fetchSubCategories.cancel();
-	}, [categoryId]); 
+	}, [categoryId]);
 
 
 	const onSubmit = async (formData) => {
-		const changedData = {};
-		console.log(formData);
+		const changedData = { _method: 'PUT' };
 
 		// Compare each form field with initial data to find changes
 		Object.keys(formData).forEach((key) => {
-			if (formData[key] !== initialData[key]) {
+			if (JSON.stringify(formData[key]) !== JSON.stringify(initialData[key])) {
 				changedData[key] = formData[key];
 			}
 		});
 
-		if (Object.keys(changedData).length === 0) {
+		if (Object.keys(changedData).length == 0) {
 			toast.info("No changes detected", { position: "top-center" });
 			return;
 		}
-console.log(changedData);
+
+		console.log(changedData);
+		
+
 
 		const data = await callApi(changedData);
 		if (data?.status == 200) {
@@ -119,6 +144,7 @@ console.log(changedData);
 	}, [error]);
 
 
+
 	return (
 		<div>
 			<form encType="multipart/form-data" className="grid xl:grid-cols-3 gap-5 xl:gap-10" onSubmit={handleSubmit(onSubmit)}>
@@ -130,7 +156,7 @@ console.log(changedData);
 					</div>
 					<InputField error={apiErrors?.short_desc} required label="Short Description" name="short_desc" type="textarea" control={control} placeholder="Short Description" />
 					<InputField error={apiErrors?.long_desc} label="Long Description" name="long_desc" type="editor" control={control} placeholder="Long Description" />
-					<FileInputField defaultValue={watch('images')} error={apiErrors?.images} label="Product Images" multiple name="images[]" control={control} />
+					<FileInputField imagePreviews={watch('images')} error={apiErrors?.images} label="Product Images" multiple name="images[]" control={control} />
 				</div>
 				<div className="max-h-fit w-full shadow bg-white p-5 md:p-10 rounded space-y-5">
 					<CheckboxGroup error={apiErrors?.item_type}
@@ -172,7 +198,7 @@ console.log(changedData);
 						placeholder="Search to Select"
 						width="100%"
 					/>
-					<FileInputField defaultValue={[watch('banner')]} error={apiErrors?.banner} required label="Product Banner" name="banner" control={control} />
+					<FileInputField imagePreviews={[watch('banner')]} error={apiErrors?.banner} required label="Product Banner" name="banner" control={control} />
 
 					<Button loading={loading} type="submit" className="flex items-center justify-center gap-2 w-full">
 						<IoMdAdd size={20} />
