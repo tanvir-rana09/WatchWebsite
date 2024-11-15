@@ -125,9 +125,21 @@
   .ant-select-selection-placeholder{
     font-size: 16px !important;
     margin-bottom: 2px;
-    font-weight: 500;
+    font-weight: 500 !important;
+    color: rgb(55, 65, 81);
+    font-family: "Rethink Sans";
   }
   .ant-select-selection-item{
     font-size: 16px !important;
     font-weight: 500;
   }
+  .ant-select-selector:hover{
+    border-color:  #3c50e0 !important;
+  }
+  .ant-select-selector:focus{
+    outline: none !important;
+    box-shadow: none !important;
+  }
+.ant-select-selector{
+    border-radius: 4px !important;
+}

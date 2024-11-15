@@ -38,8 +38,8 @@ const AdminProducts = () => {
       status: selectedValue.status,
     }).then((result) => {
       setTotal(result?.total || 0);
-      const transformedData = result?.data?.map((item) => ({
-        id: item.id,
+      const transformedData = result?.data?.map((item,i) => ({
+        id: (currentPage - 1) * pageSize + i + 1,
         banner: item.banner,
         name: item.name,
         category: item.category?.name || 'N/A',
@@ -85,11 +85,11 @@ const AdminProducts = () => {
   return (
     <div className='adminlayout'>
       <div className='flex justify-end gap-5 items-center'>
-        <LinkButton className='bg-purple/90 hover:bg-purple' label='Add category' url='category/add' Icon={IoMdAdd} />
-        <LinkButton label='Add product' url='add' Icon={IoMdAdd} />
+        <LinkButton className='!text-black border !bg-white hover:!bg-black duration-300 hover:!text-white' label='Add category' url='category/add' Icon={IoMdAdd} />
+        <LinkButton className='!text-white border !bg-black hover:!bg-white duration-300 hover:!text-black' label='Add product' url='add' Icon={IoMdAdd} />
       </div>
       <div className='flex justify-between items-center mb-8 mt-3 flex-wrap'>
-        <SearchInput className='!py-2.5' placeholder='Search Product By Name' onSearch={setSearch} />
+        <SearchInput className='!py-3 hover:!border-blue' placeholder='Search product by name' onSearch={setSearch} />
         <div className='flex items-center gap-5 flex-wrap'>
           {(selectedValue.category_id ||selectedValue.status ||selectedValue.sort_by ) && <Button onClick={()=>setSelectedValue({})} variant='danger' className='!py-[9px] flex items-center gap-2'><GrPowerReset />
             Reset</Button>}

@@ -143,11 +143,12 @@ const EditProduct = () => {
 		} else setApiErrors({});
 	}, [error]);
 
+console.log(watch('images'));
 
 
 	return (
 		<div>
-			<form encType="multipart/form-data" className="grid xl:grid-cols-3 gap-5 xl:gap-10" onSubmit={handleSubmit(onSubmit)}>
+			<form encType="multipart/form-data" className="grid xl:grid-cols-3 gap-5 2xl:gap-10" onSubmit={handleSubmit(onSubmit)}>
 				<div className="xl:col-span-2 shadow bg-white p-5 md:p-10 rounded">
 					<InputField error={apiErrors?.name} required label="Product Name" name="name" type="text" control={control} placeholder="Product Name" />
 					<div className="grid grid-cols-2 gap-5">

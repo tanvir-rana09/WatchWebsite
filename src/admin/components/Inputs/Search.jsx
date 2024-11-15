@@ -22,7 +22,7 @@ const SearchInput = ({ onSearch, placeholder = 'Search...', className = '' }) =>
 				value={query}
 				onChange={handleInputChange}
 				placeholder={placeholder}
-				className="w-full rounded border  border-gray-300 focus:ring-2 ring-blue focus:border-none bg-transparent py-2.5 pl-10 pr-10 outline-none focus:border-blue focus-visible:shadow-none text-gray-700"
+				className="w-full rounded border hover:border-blue duration-300 border-gray-300 focus:ring-2 ring-blue focus:border-none bg-transparent py-3 pl-10 pr-10 outline-none focus:border-blue focus-visible:shadow-none text-gray-700"
 			/>
 		</div>
 	);

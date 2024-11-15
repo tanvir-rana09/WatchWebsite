@@ -30,7 +30,7 @@ const AntSelect = forwardRef(({
           value={disabled ? "No child category availble" : field.value}
           suffixIcon={<MdOutlineKeyboardArrowDown size={20} />}
           showSearch={showSearch}
-          style={{ width, height: '45px', border: 0 }}
+          style={{ width, height: '48px', border: 0,outline:0 }}
           placeholder={placeholder}
           optionFilterProp="label"
           filterSort={

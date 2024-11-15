@@ -11,6 +11,7 @@ const columns = [
 		dataIndex: 'id',
 		key: 'id',
 		width: '4%',
+		
 	},
 	{
 		title: 'Banner',
