@@ -16,10 +16,10 @@ const FileInputField = forwardRef(
       }
     }, [imagePreviews]);
 
+
     const handleFileChange = (selectedFiles, field) => {
       const newFiles = Array.from(selectedFiles);
       const newPreviews = newFiles.map(file => URL.createObjectURL(file));
-      console.log(newPreviews);
 
       if (multiple) {
         setFiles(prev => [...prev, ...newFiles]);
@@ -100,7 +100,7 @@ const FileInputField = forwardRef(
               <div className="flex flex-wrap gap-2 mt-4">
                 {previews.length > 0 && previews?.map((preview, index) => (
                   preview && (<div key={index} className="relative w-24 h-24">
-                    <img src={typeof preview == 'string' ? preview : URL.createObjectURL(preview)} alt={`Preview ${index}`} className="w-full h-full object-cover rounded" />
+                    <img src={preview} alt={`Preview ${index}`} className="w-full h-full object-cover rounded" />
                     <button
                       type="button"
                       onClick={() => handleRemoveFile(index, field)}

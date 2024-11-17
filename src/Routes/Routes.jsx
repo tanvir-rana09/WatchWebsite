@@ -19,6 +19,7 @@ import NoneProtectedRoute from './NoneProtectedRoute.jsx';
 import { AuthProvider } from '../context/AuthProvider.jsx';
 import AddProducts from '../admin/pages/AddProducts.jsx';
 import EditProduct from '../admin/pages/EditProduct.jsx';
+import Categories from '../admin/pages/Categories.jsx';
 
 const AppRoutes = () => (
 	<AuthProvider>
@@ -48,7 +49,7 @@ const AppRoutes = () => (
 				<Route path="/admin/products/add" element={<ProtectedRoute ><AddProducts /></ProtectedRoute>} />
 				<Route path="/admin/products/update/:id" element={<ProtectedRoute ><EditProduct /></ProtectedRoute>} />
 				<Route path="/admin/orders" element={<ProtectedRoute ><Orders /></ProtectedRoute>} />
-				<Route path="/admin/categories" element={<ProtectedRoute ><Orders /></ProtectedRoute>} />
+				<Route path="/admin/categories" element={<ProtectedRoute ><Categories /></ProtectedRoute>} />
 			</Route>
 			
 		</Routes>

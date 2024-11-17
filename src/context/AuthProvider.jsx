@@ -7,7 +7,7 @@ export const AuthProvider = ({ children }) => {
 	const { callApi } = useApi('/auth/profile', 'GET');
 	const [isAuthenticated, setIsAuthenticated] = useState(false);
 	const [user, setUser] = useState(null);
-	const [loading, setLoading] = useState(true); // Start as true to prevent flicker
+	const [loading, setLoading] = useState(true);
 	const [isAdmin, setIsAdmin] = useState(false);
 	useEffect(() => {
 		const token = getLocalStorageItem('token');

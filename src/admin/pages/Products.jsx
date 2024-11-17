@@ -38,8 +38,9 @@ const AdminProducts = () => {
       status: selectedValue.status,
     }).then((result) => {
       setTotal(result?.total || 0);
-      const transformedData = result?.data?.map((item,i) => ({
-        id: (currentPage - 1) * pageSize + i + 1,
+      const transformedData = result?.data?.map((item, i) => ({
+        key: (currentPage - 1) * pageSize + i + 1,
+        id: item.id,
         banner: item.banner,
         name: item.name,
         category: item.category?.name || 'N/A',
@@ -91,7 +92,7 @@ const AdminProducts = () => {
       <div className='flex justify-between items-center mb-8 mt-3 flex-wrap'>
         <SearchInput className='!py-3 hover:!border-blue' placeholder='Search product by name' onSearch={setSearch} />
         <div className='flex items-center gap-5 flex-wrap'>
-          {(selectedValue.category_id ||selectedValue.status ||selectedValue.sort_by ) && <Button onClick={()=>setSelectedValue({})} variant='danger' className='!py-[9px] flex items-center gap-2'><GrPowerReset />
+          {(selectedValue.category_id || selectedValue.status || selectedValue.sort_by) && <Button onClick={() => setSelectedValue({})} variant='danger' className='!py-[9px] flex items-center gap-2'><GrPowerReset />
             Reset</Button>}
           <div className='flex items-center gap-5 -mt-2 flex-wrap'>
             <AntSelect
@@ -138,6 +139,9 @@ const AdminProducts = () => {
               data={data}
               columns={columns}
               loading={loading}
+              method={'delete'}
+              endpoint={'/product/delete'}
+              reCall={fetchProducts}
             />
         }
       </div>

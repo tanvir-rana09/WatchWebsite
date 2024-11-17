@@ -20,6 +20,7 @@ const EditProduct = () => {
 	const [subCategory, setSubCategory] = useState([]);
 	const { id } = useParams();
 	const navigate = useNavigate();
+	const [initialLoading, setInitialLoading] = useState(false)
 	const { callApi, error, loading } = useApi(`/product/update/${id}`, 'POST');
 
 	// Fetch categories
@@ -39,12 +40,10 @@ const EditProduct = () => {
 	useEffect(() => {
 		const fetchProductData = async () => {
 			try {
+				setInitialLoading(true)
 				const data = await apiCall(`/product?id=${id}`, "get");
-
 				if (data?.data) {
 					const productData = data.data[0];
-
-
 					const obj = {
 						name: productData?.name || null,
 						price: productData?.price || null,
@@ -62,13 +61,12 @@ const EditProduct = () => {
 					Object.keys(obj).forEach((field) => {
 						setValue(field, productData[field]);
 					});
-
 				}
 			} catch (error) {
 				console.error("Error fetching product data:", error);
-			}
+			} finally{ setInitialLoading(false);}
+			
 		};
-
 		fetchProductData();
 	}, [id, setValue, setInitialData]);
 
@@ -120,10 +118,6 @@ const EditProduct = () => {
 			return;
 		}
 
-		console.log(changedData);
-		
-
-
 		const data = await callApi(changedData);
 		if (data?.status == 200) {
 			toast.success("Product updated successfully", { position: "top-center" });
@@ -143,70 +137,89 @@ const EditProduct = () => {
 		} else setApiErrors({});
 	}, [error]);
 
-console.log(watch('images'));
 
 
 	return (
 		<div>
-			<form encType="multipart/form-data" className="grid xl:grid-cols-3 gap-5 2xl:gap-10" onSubmit={handleSubmit(onSubmit)}>
-				<div className="xl:col-span-2 shadow bg-white p-5 md:p-10 rounded">
-					<InputField error={apiErrors?.name} required label="Product Name" name="name" type="text" control={control} placeholder="Product Name" />
-					<div className="grid grid-cols-2 gap-5">
-						<InputField error={apiErrors?.price} required label="Product Price" name="price" type="number" control={control} placeholder="Product Price" />
-						<InputField error={apiErrors?.stock} required label="Product Stock" name="stock" type="number" control={control} placeholder="Product Stock" />
-					</div>
-					<InputField error={apiErrors?.short_desc} required label="Short Description" name="short_desc" type="textarea" control={control} placeholder="Short Description" />
-					<InputField error={apiErrors?.long_desc} label="Long Description" name="long_desc" type="editor" control={control} placeholder="Long Description" />
-					<FileInputField imagePreviews={watch('images')} error={apiErrors?.images} label="Product Images" multiple name="images[]" control={control} />
-				</div>
-				<div className="max-h-fit w-full shadow bg-white p-5 md:p-10 rounded space-y-5">
-					<CheckboxGroup error={apiErrors?.item_type}
-						control={control}
-						name="item_type"
-						options={[
-							{ value: 'men', label: 'Men' },
-							{ value: 'women', label: 'Women' },
-							{ value: 'clock', label: 'Clock' },
-						]}
-						setValue={setValue}
-						label="Select Item Type"
-					/>
-					<CheckboxGroup error={apiErrors?.status}
-						control={control}
-						name="status"
-						options={[
-							{ value: 1, label: 'Publish' },
-							{ value: 0, label: 'Hidden' },
-						]}
-						setValue={setValue}
-						label="Select Status Type"
-					/>
-					<AntSelect error={apiErrors?.category_id}
-						label="Select Main Category"
-						required
-						name="category_id"
-						control={control}
-						options={category}
-						placeholder="Search to Select"
-						width="100%"
-					/>
-					<AntSelect error={apiErrors?.subcategory_id}
-						label="Select Sub Category"
-						disabled={!subCategory.length}
-						name="subcategory_id"
-						control={control}
-						options={subCategory}
-						placeholder="Search to Select"
-						width="100%"
-					/>
-					<FileInputField imagePreviews={[watch('banner')]} error={apiErrors?.banner} required label="Product Banner" name="banner" control={control} />
+			{
+				initialLoading ?
+					<div className="h-screen grid xl:grid-cols-3 gap-5 2xl:gap-10">
+						<div className="xl:col-span-2 pt-20 adminlayout block h-full space-y-14">
+							<div className=" h-12 bg-gray-300 rounded animate-pulse"></div>
+							<div className="grid grid-cols-2 gap-5">
+								<div className=" h-12 bg-gray-300 rounded animate-pulse"></div>
+								<div className=" h-12 bg-gray-300 rounded animate-pulse"></div>
+							</div>
+							<div className=" h-56 bg-gray-300 rounded animate-pulse"></div>
+							<div className=" h-56 bg-gray-300 rounded animate-pulse"></div>
+						</div>
+						<div className="adminlayout space-y-14 h-full pt-20">
+							<div className=" h-12 bg-gray-300 rounded animate-pulse"></div>
+							<div className=" h-12 bg-gray-300 rounded animate-pulse"></div>
+							<div className=" h-12 bg-gray-300 rounded animate-pulse"></div>
+							<div className=" h-12 bg-gray-300 rounded animate-pulse"></div>
+							<div className=" h-44 bg-gray-300 rounded animate-pulse"></div>
+						</div>
+					</div> :
+					<form encType="multipart/form-data" className="grid xl:grid-cols-3 gap-5 2xl:gap-10" onSubmit={handleSubmit(onSubmit)}>
+						<div className="xl:col-span-2 shadow bg-white p-5 md:p-10 rounded">
+							<InputField error={apiErrors?.name} required label="Product Name" name="name" type="text" control={control} placeholder="Product Name" />
+							<div className="grid grid-cols-2 gap-5">
+								<InputField error={apiErrors?.price} required label="Product Price" name="price" type="number" control={control} placeholder="Product Price" />
+								<InputField error={apiErrors?.stock} required label="Product Stock" name="stock" type="number" control={control} placeholder="Product Stock" />
+							</div>
+							<InputField error={apiErrors?.short_desc} required label="Short Description" name="short_desc" type="textarea" control={control} placeholder="Short Description" />
+							<InputField error={apiErrors?.long_desc} label="Long Description" name="long_desc" type="editor" control={control} placeholder="Long Description" />
+							<FileInputField imagePreviews={getValues().images} error={apiErrors?.images} label="Product Images" multiple name="images[]" control={control} />
+						</div>
+						<div className="max-h-fit w-full shadow bg-white p-5 md:p-10 rounded space-y-5">
+							<CheckboxGroup error={apiErrors?.item_type}
+								control={control}
+								name="item_type"
+								options={[
+									{ value: 'men', label: 'Men' },
+									{ value: 'women', label: 'Women' },
+									{ value: 'clock', label: 'Clock' },
+								]}
+								setValue={setValue}
+								label="Select Item Type"
+							/>
+							<CheckboxGroup error={apiErrors?.status}
+								control={control}
+								name="status"
+								options={[
+									{ value: 1, label: 'Publish' },
+									{ value: 0, label: 'Hidden' },
+								]}
+								setValue={setValue}
+								label="Select Status Type"
+							/>
+							<AntSelect error={apiErrors?.category_id}
+								label="Select Main Category"
+								required
+								name="category_id"
+								control={control}
+								options={category}
+								placeholder="Search to Select"
+								width="100%"
+							/>
+							<AntSelect error={apiErrors?.subcategory_id}
+								label="Select Sub Category"
+								disabled={!subCategory.length}
+								name="subcategory_id"
+								control={control}
+								options={subCategory}
+								placeholder="Search to Select"
+								width="100%"
+							/>
+							<FileInputField imagePreviews={[getValues().banner]} error={apiErrors?.banner} required label="Product Banner" name="banner" control={control} />
 
-					<Button loading={loading} type="submit" className="flex items-center justify-center gap-2 w-full">
-						<IoMdAdd size={20} />
-						Update Product
-					</Button>
-				</div>
-			</form>
+							<Button loading={loading} type="submit" className="flex items-center justify-center gap-2 w-full">
+								<IoMdAdd size={20} />
+								Update Product
+							</Button>
+						</div>
+					</form>}
 		</div>
 	);
 };

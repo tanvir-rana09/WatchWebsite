@@ -1,15 +1,10 @@
 import { Tag } from "antd";
-import Button from "../admin/components/Buttons/Button";
-import { MdOutlineEdit } from "react-icons/md";
-import { FaRegEye } from "react-icons/fa";
-import { RiDeleteBin6Line } from "react-icons/ri";
-import LinkButton from "../admin/components/Buttons/LinkButton";
 
 const columns = [
 	{
 		title: '#',
-		dataIndex: 'id',
-		key: 'id',
+		dataIndex: 'key',
+		key: 'key',
 		width: '4%',
 		
 	},
@@ -76,13 +71,6 @@ const columns = [
 		title: 'Actions',
 		key: 'actions',
 		width: '10%',
-		render: (text, record) => (
-			<div className="flex">
-				<LinkButton url={`update/${record.id}`} className="!p-2 text-lg !bg-transparent !text-blue" Icon={MdOutlineEdit} />
-				<Button className="!p-2 !bg-transparent !text-purple" variant="third"><FaRegEye size={20} /></Button>
-				<Button className="!p-2 !bg-transparent !text-red-500" variant="danger"><RiDeleteBin6Line size={20} /></Button>
-			</div>
-		),
 	},
 ];
 

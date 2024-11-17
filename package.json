@@ -10,18 +10,23 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^2.3.0",
     "antd": "^5.21.6",
     "axios": "^1.7.7",
+    "flowbite": "^2.5.2",
+    "flowbite-react": "^0.10.2",
     "lodash": "^4.17.21",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-highlight-words": "^0.20.0",
     "react-hook-form": "^7.53.1",
     "react-icons": "^4.12.0",
+    "react-redux": "^9.1.2",
     "react-responsive-pagination": "^2.9.0",
     "react-router-dom": "^6.21.1",
     "react-slick": "^0.29.0",
     "react-toastify": "^10.0.6",
+    "redux-persist": "^6.0.0",
     "slick-carousel": "^1.8.1",
     "suneditor": "^2.47.0",
     "suneditor-react": "^3.6.1"

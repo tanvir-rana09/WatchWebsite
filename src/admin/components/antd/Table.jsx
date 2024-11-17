@@ -2,12 +2,21 @@ import { useRef, useState } from 'react';
 import { SearchOutlined } from '@ant-design/icons';
 import { Button, Input, Space, Table } from 'antd';
 import Highlighter from 'react-highlight-words';
+import { FlowbiteModal } from '../Flowbite/Modal';
+import LinkButton from '../Buttons/LinkButton';
+import { MdOutlineEdit } from 'react-icons/md';
+import { FaRegEye } from 'react-icons/fa';
+import { RiDeleteBin6Line } from 'react-icons/ri';
+import useApi from '../../../utils/useApi';
+import { toast } from "react-toastify";
 
-const AntdTable = ({ data, columns: propColumns }) => {
+const AntdTable = ({ data, columns: propColumns, endpoint = '', method = '', reCall = null }) => {
 	const [searchText, setSearchText] = useState('');
 	const [searchedColumn, setSearchedColumn] = useState('');
+	const [openModal, setOpenModal] = useState(false);
+	const [id, setId] = useState()
 	const searchInput = useRef(null);
-
+	const { callApi, loading } = useApi(`${endpoint}/${id}`, method);
 	// Handle search
 	const handleSearch = (selectedKeys, confirm, dataIndex) => {
 		confirm();
@@ -117,19 +126,49 @@ const AntdTable = ({ data, columns: propColumns }) => {
 			),
 	});
 
-	// Merge prop columns with search functionality where applicable
-	const columns = propColumns.map((col) => ({
-		...col,
-		...(col.searchable ? getColumnSearchProps(col.dataIndex) : {}),
-	}));
+	const columns = propColumns.map((col) => {
+		if (col.key === 'actions') {
+			return {
+				...col,
+				render: (text, record) => (
+
+					<div className="flex">
+						<LinkButton url={`update/${record.id}`} className="!p-2 text-lg !bg-transparent !text-blue" Icon={MdOutlineEdit} />
+						<Button className="!p-2 !bg-transparent !text-purple border-none" variant="third"><FaRegEye size={20} /></Button>
+						<Button onClick={() => { setOpenModal(true); setId(record.id); }} className="!p-2 border-none !bg-transparent !text-red-500" variant="danger"><RiDeleteBin6Line size={20} /></Button>
+					</div>
+				),
+			};
+		}
+
+		return {
+			...col,
+			...(col.searchable ? getColumnSearchProps(col.dataIndex) : {}),
+		};
+	});
+	const onClickHandle = async () => {
+		const data = await callApi();
+
+		if (data.status == 200) {
+			toast.success('Product deleted successfully!')
+			setOpenModal(false)
+			reCall();
+		}
+		if (data.status == 404) {
+			toast.error(data.message)
+		}
+	}
 
 	return (
-		<Table
-		scroll={{ x: true }}
-			columns={columns}
-			dataSource={data}
-			pagination={false}
-		/>
+		<div>
+			<Table
+				scroll={{ x: true }}
+				columns={columns}
+				dataSource={data}
+				pagination={false}
+			/>
+			<FlowbiteModal openModal={openModal} setOpenModal={setOpenModal} onClick={onClickHandle} loading={loading} />
+		</div>
 	);
 };
 

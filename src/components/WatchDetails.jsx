@@ -2,10 +2,16 @@ import { useContext } from "react";
 import { FaStar } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import { WatchContext } from "../context/Context";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../redux/Slice";
 
 const WatchDetails = ({ product }) => {
-	// console.log(product)
-	const {addtoCart} =useContext(WatchContext)
+	const { addtoCart } = useContext(WatchContext)
+	const dispatch = useDispatch()
+	const handleCart = (product) => {
+		addtoCart(product.id);
+		dispatch(addToCart(product));
+	}
 
 	return (
 		<div className='2xl:px-[15%] md:p-5 p-3 flex flex-col gap-10'>
@@ -28,11 +34,11 @@ const WatchDetails = ({ product }) => {
 							<button>+</button>
 						</div>
 						<div className=''>
-							
-								<button 
-								onClick={()=>addtoCart(product.id)}
+
+							<button
+								onClick={() => handleCart(product)}
 								className='bg-forth text-white uppercase text-sm py-3 px-12 font-semibold duration-300 hover:bg-white hover:text-black border'>add to cart</button>
-							
+
 						</div>
 					</div >
 
