@@ -12,7 +12,7 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import debounce from "lodash/debounce";
 import apiCall from "../../utils/apiCall";
 import CategoryModal from "../components/modal/CategoryModal";
-import Button from '../components/Buttons/Button.jsx';
+import Button from "../components/Buttons/Button.jsx";
 
 const Categories = () => {
   const { callApi, loading } = useApi(`/category`, "GET");
@@ -22,111 +22,78 @@ const Categories = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
   const [search, setSearch] = useState("");
-  const [category, setCategory] = useState({})
+  const [category, setCategory] = useState({});
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const fetchProducts = () => {
-    callApi({
-      page: currentPage,
-      per_page: pageSize,
-      name: search,
-    })
-      .then((result) => {
-        setTotal(result?.total || 0);
-        const transformedData = result?.data?.map((item, i) => ({
-          key: `parent-${item.id}`, // Unique key for parent row
+
+  const fetchProducts = async () => {
+    try {
+      const result = await callApi({
+        page: currentPage,
+        per_page: pageSize,
+        name: search,
+      });
+      setTotal(result?.total || 0);
+      setData(
+        result?.data?.map((item, i) => ({
+          key: `parent-${item.id}`,
           id: item.id,
           name: item.name,
           create_at: item.create_at,
           date: item.formatted_created_at,
-          children: item.subcategory
-            ? item.subcategory.map((subcategory, subIndex) => ({
-              key: `child-${subcategory.id}-${i}-${subIndex}`, // Unique key for each child
-              id: subcategory.id,
-              name: subcategory.name,
-              create_at: subcategory.create_at,
-              date: subcategory.formatted_created_at,
-
-            }))
-            : [],
-        }));
-        setData(transformedData);
-      })
-      .catch(() => {
-        message.error("Failed to fetch categories. Please try again.");
-      });
+          children: item.subcategory?.map((subcategory, subIndex) => ({
+            key: `child-${subcategory.id}-${i}-${subIndex}`,
+            id: subcategory.id,
+            name: subcategory.name,
+            create_at: subcategory.create_at,
+            date: subcategory.formatted_created_at,
+          })) || [],
+        }))
+      );
+    } catch {
+      message.error("Failed to fetch categories. Please try again.");
+    }
   };
 
   useEffect(() => {
     fetchProducts();
-  }, [currentPage, pageSize]);
-
-  useEffect(() => {
-    setCurrentPage(1); // Reset to page 1 on search change
-    fetchProducts();
-  }, [search]);
-
-  const handlePageChange = (page, pageSize) => {
-    setCurrentPage(page);
-    setPageSize(pageSize);
-  };
-
-  const onExpand = (expanded, record) => {
-    setExpandedRowKeys((prev) => {
-      if (expanded) return [...prev, record.key];
-      return prev.filter((key) => key !== record.key);
-    });
-  };
+  }, [currentPage, pageSize, search]);
 
   const handleDelete = (id) => {
     Modal.confirm({
       title: "Are you sure you want to delete this category?",
-      onOk: () => {
-        // Call API to delete the category
-        apiCall(`/category/delete/${id}`, "DELETE")
-          .then(() => {
-            message.success("Category deleted successfully.");
-            fetchProducts(); // Refresh data
-          })
-          .catch(() => {
-            message.error("Failed to delete category. Please try again.");
-          });
+      onOk: async () => {
+        try {
+          await apiCall(`/category/delete/${id}`, "DELETE");
+          message.success("Category deleted successfully.");
+          fetchProducts();
+        } catch {
+          message.error("Failed to delete category. Please try again.");
+        }
       },
     });
   };
 
-  const handleSearch = debounce((value) => setSearch(value), 300);
-
-  const columns = categoryColumns.map((col) => {
-    if (col.key == "actions") {
-      return {
-        ...col,
-        render: (text, record) => (
-          <div className="flex">
-            <Button
-              className="!p-2 text-lg !bg-transparent !text-blue"
-              onClick={() => { setIsModalVisible(true); setCategory({ id: record.id, name: record.name, sub: false }) }}
-            ><MdOutlineEdit size={20} /></Button>
-            <Button
-              className="!p-2 border-none !bg-transparent !text-red-500"
-              onClick={() => handleDelete(record.id)}
-            >
-              <RiDeleteBin6Line size={20} />
-            </Button>
-          </div>
-        ),
-      };
-    }
-    return { ...col };
-  });
-
-
-  useEffect(() => {
-    if (isModalVisible){
-      return
-    }else{
-      setCategory({});
-    }
-  }, [isModalVisible])
+  const columns = categoryColumns.map((col) => ({
+    ...col,
+    render: col.key === "actions" ? (text, record) => (
+      <div className="flex">
+        <Button
+          className="!p-2 text-lg !bg-transparent !text-blue"
+          onClick={() =>
+            setIsModalVisible(true) || setCategory({ id: record.id, name: record.name, sub: false })
+          }
+        >
+          <MdOutlineEdit size={20} />
+        </Button>
+        <Button
+          className="!p-2 border-none !bg-transparent !text-red-500"
+          onClick={() => handleDelete(record.id)}
+        >
+          <RiDeleteBin6Line size={20} />
+        </Button>
+      </div>
+    ) : col.render,
+  }));
 
   return (
     <div className="adminlayout">
@@ -134,21 +101,20 @@ const Categories = () => {
         <SearchInput
           className="!py-3 hover:!border-blue"
           placeholder="Search category by name"
-          onSearch={handleSearch}
+          onSearch={debounce(setSearch, 300)}
         />
         <div className="flex justify-end gap-5 items-center">
-          <Button
-            className="!text-black border flex items-center gap-2 !bg-white hover:!bg-black duration-300 hover:!text-white"
-            onClick={() => { setIsModalVisible(true); setCategory((prev) => ({ ...prev, sub: true })) }}
-          >
-            <IoMdAdd />Add sub category
-          </Button>
-          <Button
-            className="!text-black border flex items-center gap-2 !bg-white hover:!bg-black duration-300 hover:!text-white"
-            onClick={() => { setIsModalVisible(true); setCategory((prev) => ({ ...prev, sub: false })) }}
-          >
-            <IoMdAdd />Add main category
-          </Button>
+          {["Add sub category", "Add main category"].map((label, index) => (
+            <Button
+              key={label}
+              className="!text-black border flex items-center gap-2 !bg-white hover:!bg-black duration-300 hover:!text-white"
+              onClick={() =>
+                setIsModalVisible(true) || setCategory({ sub: index === 0 })
+              }
+            >
+              <IoMdAdd /> {label}
+            </Button>
+          ))}
           <LinkButton
             className="!text-white border !bg-black hover:!bg-white duration-300 hover:!text-black"
             label="Add product"
@@ -157,7 +123,7 @@ const Categories = () => {
           />
         </div>
       </div>
-      <div className="categoriesTable">
+      <div className="categoriesTable mt-5">
         {loading ? (
           <TableSkeleton />
         ) : (
@@ -168,8 +134,12 @@ const Categories = () => {
             pagination={false}
             expandable={{
               expandedRowKeys,
-              onExpand: onExpand,
-              rowExpandable: (record) => record.children && record.children.length > 0,
+              onExpand: (expanded, record) => {
+                setExpandedRowKeys((prev) =>
+                  expanded ? [...prev, record.key] : prev.filter((key) => key !== record.key)
+                );
+              },
+              rowExpandable: (record) => record.children?.length > 0,
             }}
           />
         )}
@@ -178,15 +148,21 @@ const Categories = () => {
             total={total}
             currentPage={currentPage}
             pageSize={pageSize}
-            onPageChange={handlePageChange}
+            onPageChange={(page, size) => {
+              setCurrentPage(page);
+              setPageSize(size);
+            }}
           />
         </div>
-        <CategoryModal
-          onClose={() => setIsModalVisible(false)}
-          visible={isModalVisible}
-          id={category}
-        // onSubmit={handleAddCategory}
-        />
+        {isModalVisible && (
+          <CategoryModal
+            data={data}
+            recall={fetchProducts}
+            onClose={() => setIsModalVisible(false)}
+            visible={isModalVisible}
+            id={category}
+          />
+        )}
       </div>
     </div>
   );

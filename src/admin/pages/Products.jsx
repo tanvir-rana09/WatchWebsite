@@ -86,7 +86,7 @@ const AdminProducts = () => {
   return (
     <div className='adminlayout'>
       <div className='flex justify-end gap-5 items-center'>
-        <LinkButton className='!text-black border !bg-white hover:!bg-black duration-300 hover:!text-white' label='Add category' url='category/add' Icon={IoMdAdd} />
+        <LinkButton className='!text-black border !bg-white hover:!bg-black duration-300 hover:!text-white' label='Add category' url='/admin/categories' Icon={IoMdAdd} />
         <LinkButton className='!text-white border !bg-black hover:!bg-white duration-300 hover:!text-black' label='Add product' url='add' Icon={IoMdAdd} />
       </div>
       <div className='flex justify-between items-center mb-8 mt-3 flex-wrap'>

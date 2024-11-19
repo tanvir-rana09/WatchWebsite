@@ -5,7 +5,6 @@ const AntdPagination = ({
   total,
   current,
   pageSize,
-  pageSizeOptions = ['10', '20', '50', '100'],
   onPageChange,
 }) => {
   // Handle page change
@@ -21,8 +20,6 @@ const AntdPagination = ({
       current={current}  // Synchronize with AdminProducts component
       pageSize={pageSize}
       total={total}
-      showSizeChanger
-      pageSizeOptions={pageSizeOptions}
       onChange={handlePageChange}
       onShowSizeChange={handlePageChange}
       style={{ marginTop: 20, textAlign: 'center' }}
