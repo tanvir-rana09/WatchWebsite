@@ -18,7 +18,7 @@ const AntSelect = forwardRef(({
   ...rest
 }, ref) => (
   <div>
-    <p className='mb-2 font-[500] text-gray-600'>{label} {required && <span className='text-red-500'>{'*'}</span>}</p>
+    <p className='mb-2 font-[500] text-[16px] text-gray-600'>{label} {required && <span className='text-red-500'>{'*'}</span>}</p>
     <Controller
       name={name}
       control={control}
@@ -27,7 +27,7 @@ const AntSelect = forwardRef(({
           {...field}
           disabled={disabled}
           ref={ref}
-          value={disabled ? "No child category availble" : field.value}
+          value={disabled ? "No category availble" : field.value}
           suffixIcon={<MdOutlineKeyboardArrowDown size={20} />}
           showSearch={showSearch}
           style={{ width, height: '48px', border: 0,outline:0 }}

@@ -12,7 +12,7 @@ const InputField = forwardRef(({
   placeholder,
   error = '',
   className = '',
-  required=false
+  required = false
 }, ref) => {
   const renderInputField = (field) => {
     switch (type) {
@@ -70,7 +70,7 @@ const InputField = forwardRef(({
             ref={ref}
             // onChange={onChange}
             placeholder={placeholder}
-            className={`w-full rounded border  border-gray-300 focus:ring-2 ring-blue focus:border-none bg-transparent py-3 pl-6 pr-10 outline-none focus:border-blue focus-visible:shadow-none text-gray-700 ${error ? 'border-red-500' : 'border-gray-300'} ${className}`}
+            className={`w-full rounded placeholder:text-[15px] placeholder:text-gray-400 placeholder:font-normal placeholder:tracking-wider border border-gray-300 focus:ring-2 ring-blue focus:border-none bg-transparent py-3 pl-3 pr-5 outline-none focus:border-blue focus-visible:shadow-none text-gray-700 ${error ? 'border-red-500' : 'border-gray-300'} ${className}`}
           />
         );
     }
@@ -78,7 +78,7 @@ const InputField = forwardRef(({
 
   return (
     <div className={`flex flex-col mb-4 ${className}`}>
-      <p className='mb-2 font-[500] text-gray-600'>{label } {required && <span className='text-red-500'>{'*'}</span>}</p>
+      <p className='mb-2 text-[16px] font-[500] text-gray-600'>{label} {required && <span className='text-red-500'>{'*'}</span>}</p>
       <Controller
         name={name}
         control={control}

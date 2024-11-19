@@ -1,22 +1,10 @@
+
 const columns = [
-	{
-		title: '#',
-		dataIndex: 'key',
-		key: 'key',
-		width: '4%',
-		
-	},
-	{
-		title: 'Date',
-		dataIndex: 'date',
-		key: 'date',
-		width:'15%',
-	},
 	{
 		title: 'Name',
 		dataIndex: 'name',
 		key: 'name',
-		searchable: true,
+		responsive: ["xs", "sm", "md"]
 	},
 	{
 		title: 'Actions',

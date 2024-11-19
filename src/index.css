@@ -143,3 +143,22 @@
 .ant-select-selector{
     border-radius: 4px !important;
 }
+
+.ant-table-row-expand-icon{
+    border-radius: 2px !important;
+    margin-top: 5px !important
+   
+}
+.custom-table .ant-table-row-expand-icon-cell {
+    vertical-align: middle !important;
+  }
+.ant-table-cell {
+  font-size: 16px !important; 
+}
+.categoriesTable .ant-table-thead .ant-table-cell{
+    margin-left: 20px !important;
+    padding-left: 42px !important;
+}
+input:focus{
+    border-width: 0 !important;
+}

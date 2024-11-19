@@ -131,16 +131,14 @@ const AntdTable = ({ data, columns: propColumns, endpoint = '', method = '', reC
 			return {
 				...col,
 				render: (text, record) => (
-
 					<div className="flex">
 						<LinkButton url={`update/${record.id}`} className="!p-2 text-lg !bg-transparent !text-blue" Icon={MdOutlineEdit} />
 						<Button className="!p-2 !bg-transparent !text-purple border-none" variant="third"><FaRegEye size={20} /></Button>
-						<Button onClick={() => { setOpenModal(true); setId(record.id); }} className="!p-2 border-none !bg-transparent !text-red-500" variant="danger"><RiDeleteBin6Line size={20} /></Button>
+						<Button onClick={() => {setOpenModal(true); setId(record.id);}} className="!p-2 border-none !bg-transparent !text-red-500" variant="danger"><RiDeleteBin6Line size={20} /></Button>
 					</div>
 				),
 			};
 		}
-
 		return {
 			...col,
 			...(col.searchable ? getColumnSearchProps(col.dataIndex) : {}),

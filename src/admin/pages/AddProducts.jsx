@@ -135,7 +135,6 @@ const AddProducts = () => {
 						label="Select status type"
 					/>
 					<div>
-
 						<AntSelect error={apiErrors?.category_id}
 							label='Select main category'
 							required
