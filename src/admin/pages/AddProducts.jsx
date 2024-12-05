@@ -15,7 +15,7 @@ import { debounce } from "lodash"
 const AddProducts = () => {
 	const { control, handleSubmit, setValue, reset, watch } = useForm({
 		defaultValues: {
-			item_type: 'men',
+			gender: 'men',
 			status: 1,
 		},
 	})
@@ -29,7 +29,6 @@ const AddProducts = () => {
 	const itemTypes = [
 		{ value: 'men', label: 'Men' },
 		{ value: 'women', label: 'Women' },
-		{ value: 'clock', label: 'Clock' },
 	];
 
 	// Fetch categories
@@ -117,12 +116,12 @@ const AddProducts = () => {
 					<FileInputField error={apiErrors?.images} label="Product images" multiple name="images[]" control={control} />
 				</div>
 				<div className=" max-h-fit w-full shadow bg-white p-5 md:p-10 rounded space-y-5">
-					<CheckboxGroup error={apiErrors?.item_type}
+					<CheckboxGroup error={apiErrors?.gender}
 						control={control}
-						name="item_type"
+						name="gender"
 						options={itemTypes}
 						setValue={setValue}
-						label="Select item type"
+						label="Select Item Gender"
 					/>
 					<CheckboxGroup error={apiErrors?.status}
 						control={control}
@@ -132,7 +131,7 @@ const AddProducts = () => {
 							{ value: 1, label: 'Publish' },
 							{ value: 0, label: "Hidden" },
 						]}
-						label="Select status type"
+						label="Select Status"
 					/>
 					<div>
 						<AntSelect error={apiErrors?.category_id}

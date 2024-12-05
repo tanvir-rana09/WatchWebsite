@@ -1,23 +1,18 @@
 import { useRef, useState } from 'react';
 import { SearchOutlined } from '@ant-design/icons';
-import { Button, Input, Space, Table } from 'antd';
+import { Button, Input, Modal, Space, Table } from 'antd';
 import Highlighter from 'react-highlight-words';
-import { FlowbiteModal } from '../Flowbite/Modal';
 import LinkButton from '../Buttons/LinkButton';
 import { MdOutlineEdit } from 'react-icons/md';
 import { FaRegEye } from 'react-icons/fa';
 import { RiDeleteBin6Line } from 'react-icons/ri';
-import useApi from '../../../utils/useApi';
 import { toast } from "react-toastify";
+import apiCall from '../../../utils/apiCall';
 
 const AntdTable = ({ data, columns: propColumns, endpoint = '', method = '', reCall = null }) => {
 	const [searchText, setSearchText] = useState('');
 	const [searchedColumn, setSearchedColumn] = useState('');
-	const [openModal, setOpenModal] = useState(false);
-	const [id, setId] = useState()
 	const searchInput = useRef(null);
-	const { callApi, loading } = useApi(`${endpoint}/${id}`, method);
-	// Handle search
 	const handleSearch = (selectedKeys, confirm, dataIndex) => {
 		confirm();
 		setSearchText(selectedKeys[0]);
@@ -126,6 +121,21 @@ const AntdTable = ({ data, columns: propColumns, endpoint = '', method = '', reC
 			),
 	});
 
+	const handleDelete = (id) => {
+		Modal.confirm({
+			title: "Are you sure you want to delete this category?",
+			onOk: async () => {
+				try {
+					await apiCall(`${endpoint}/${id}`, method);
+					toast.success("Category deleted successfully.");
+					reCall()
+				} catch {
+					toast.error("Failed to delete category. Please try again.");
+				}
+			},
+		});
+	};
+
 	const columns = propColumns.map((col) => {
 		if (col.key === 'actions') {
 			return {
@@ -134,7 +144,7 @@ const AntdTable = ({ data, columns: propColumns, endpoint = '', method = '', reC
 					<div className="flex">
 						<LinkButton url={`update/${record.id}`} className="!p-2 text-lg !bg-transparent !text-blue" Icon={MdOutlineEdit} />
 						<Button className="!p-2 !bg-transparent !text-purple border-none" variant="third"><FaRegEye size={20} /></Button>
-						<Button onClick={() => {setOpenModal(true); setId(record.id);}} className="!p-2 border-none !bg-transparent !text-red-500" variant="danger"><RiDeleteBin6Line size={20} /></Button>
+						<Button onClick={() => handleDelete(record.id)} className="!p-2 border-none !bg-transparent !text-red-500" variant="danger"><RiDeleteBin6Line size={20} /></Button>
 					</div>
 				),
 			};
@@ -144,18 +154,7 @@ const AntdTable = ({ data, columns: propColumns, endpoint = '', method = '', reC
 			...(col.searchable ? getColumnSearchProps(col.dataIndex) : {}),
 		};
 	});
-	const onClickHandle = async () => {
-		const data = await callApi();
 
-		if (data.status == 200) {
-			toast.success('Product deleted successfully!')
-			setOpenModal(false)
-			reCall();
-		}
-		if (data.status == 404) {
-			toast.error(data.message)
-		}
-	}
 
 	return (
 		<div>
@@ -165,7 +164,7 @@ const AntdTable = ({ data, columns: propColumns, endpoint = '', method = '', reC
 				dataSource={data}
 				pagination={false}
 			/>
-			<FlowbiteModal openModal={openModal} setOpenModal={setOpenModal} onClick={onClickHandle} loading={loading} />
+
 		</div>
 	);
 };

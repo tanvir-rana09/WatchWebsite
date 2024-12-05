@@ -51,7 +51,7 @@ const EditProduct = () => {
 						short_desc: productData?.short_desc || null,
 						long_desc: productData?.long_desc || null,
 						images: productData?.images || [],
-						item_type: productData?.item_type || null,
+						gender: productData?.gender || null,
 						status: productData?.status || null,
 						category_id: productData?.category_id || null,
 						subcategory_id: productData?.subcategory_id || null,
@@ -173,16 +173,15 @@ const EditProduct = () => {
 							<FileInputField imagePreviews={getValues().images} error={apiErrors?.images} label="Product Images" multiple name="images[]" control={control} />
 						</div>
 						<div className="max-h-fit w-full shadow bg-white p-5 md:p-10 rounded space-y-5">
-							<CheckboxGroup error={apiErrors?.item_type}
+							<CheckboxGroup error={apiErrors?.gender}
 								control={control}
-								name="item_type"
+								name="gender"
 								options={[
 									{ value: 'men', label: 'Men' },
 									{ value: 'women', label: 'Women' },
-									{ value: 'clock', label: 'Clock' },
 								]}
 								setValue={setValue}
-								label="Select Item Type"
+								label="Select Item Gender"
 							/>
 							<CheckboxGroup error={apiErrors?.status}
 								control={control}
@@ -192,7 +191,7 @@ const EditProduct = () => {
 									{ value: 0, label: 'Hidden' },
 								]}
 								setValue={setValue}
-								label="Select Status Type"
+								label="Select Status"
 							/>
 							<AntSelect error={apiErrors?.category_id}
 								label="Select Main Category"
