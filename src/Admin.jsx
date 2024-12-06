@@ -30,9 +30,7 @@ const Admin = () => {
 					<main>
 						<div className="mx-auto p-4 md:p-6 2xl:p-10">
 							<Outlet />
-							{/* <ToastContainer
-								autoClose={3000}
-								hideProgressBar /> */}
+							
 						</div>
 					</main>
 

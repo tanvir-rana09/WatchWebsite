@@ -45,11 +45,11 @@ const AppRoutes = () => (
 
 			<Route path="/admin" element={<Admin />}>
 				<Route index element={<ProtectedRoute ><Dashboard /></ProtectedRoute>} />
-				<Route path="/admin/products" element={<ProtectedRoute ><AdminProducts /></ProtectedRoute>} />
-				<Route path="/admin/products/add" element={<ProtectedRoute ><AddProducts /></ProtectedRoute>} />
-				<Route path="/admin/products/update/:id" element={<ProtectedRoute ><EditProduct /></ProtectedRoute>} />
-				<Route path="/admin/orders" element={<ProtectedRoute ><Orders /></ProtectedRoute>} />
-				<Route path="/admin/categories" element={<ProtectedRoute ><Categories /></ProtectedRoute>} />
+				<Route path="products" element={<ProtectedRoute ><AdminProducts /></ProtectedRoute>} />
+				<Route path="products/add" element={<ProtectedRoute ><AddProducts /></ProtectedRoute>} />
+				<Route path="products/update/:id" element={<ProtectedRoute ><EditProduct /></ProtectedRoute>} />
+				<Route path="orders" element={<ProtectedRoute ><Orders /></ProtectedRoute>} />
+				<Route path="categories" element={<ProtectedRoute ><Categories /></ProtectedRoute>} />
 			</Route>
 			
 		</Routes>
