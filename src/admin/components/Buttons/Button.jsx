@@ -25,7 +25,7 @@ const Button = ({
       type={type}
       onClick={onClick}
       disabled={disabled || loading}
-      className={`${baseStyles} ${variantStyles[variant]} ${className}`}
+      className={`${baseStyles} ${variantStyles[variant]} ${className} text-base`}
     >
       {loading ? (
 		<p className='flex cursor-not-allowed gap-2 w-full justify-center items-center'>

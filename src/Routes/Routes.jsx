@@ -20,6 +20,7 @@ import { AuthProvider } from '../context/AuthProvider.jsx';
 import AddProducts from '../admin/pages/AddProducts.jsx';
 import EditProduct from '../admin/pages/EditProduct.jsx';
 import Categories from '../admin/pages/Categories.jsx';
+import ProfileSettings from '../admin/pages/Profile.jsx';
 
 const AppRoutes = () => (
 	<AuthProvider>
@@ -46,6 +47,7 @@ const AppRoutes = () => (
 			<Route path="/admin" element={<Admin />}>
 				<Route index element={<ProtectedRoute ><Dashboard /></ProtectedRoute>} />
 				<Route path="products" element={<ProtectedRoute ><AdminProducts /></ProtectedRoute>} />
+				<Route path="profile" element={<ProtectedRoute ><ProfileSettings /></ProtectedRoute>} />
 				<Route path="products/add" element={<ProtectedRoute ><AddProducts /></ProtectedRoute>} />
 				<Route path="products/update/:id" element={<ProtectedRoute ><EditProduct /></ProtectedRoute>} />
 				<Route path="orders" element={<ProtectedRoute ><Orders /></ProtectedRoute>} />

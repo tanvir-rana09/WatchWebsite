@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { Table, Select, Modal, Button, Typography, Tag } from 'antd';
+import { useEffect, useRef, useState } from 'react';
+import { Table, Select, Modal, Button, Typography, Checkbox, DatePicker, } from 'antd';
 import useApi from '../../utils/useApi';
 import TableSkeleton from '../components/Loading/TableSkeleton';
 import AntdPagination from '../components/antd/Pagination';
@@ -13,6 +13,7 @@ import { LuPencilLine } from "react-icons/lu";
 import AntSelect from '../components/antd/Select';
 import { useForm } from 'react-hook-form';
 import SearchInput from '../components/Inputs/Search';
+import { GrPowerReset } from 'react-icons/gr';
 
 const { Option } = Select;
 const { Text } = Typography;
@@ -26,31 +27,37 @@ const AdminOrders = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [products, setProducts] = useState([])
   const [editableStatus, setEditableStatus] = useState({ payment_status: false, delivery_status: false })
+  const [status, setStatus] = useState({ payment_status: '', delivery_status: '' })
   const { control } = useForm()
+  const [selectedValue, setSelectedValue] = useState({
+    delivery_status: '',
+    payment_status: '',
+    start_date: '',
+    end_date: '',
+  });
+  const selectRef = useRef(null);
+  const { RangePicker } = DatePicker;
 
   const allOrders = () => {
-    callApi({
-      page: currentPage,
-      per_page: pageSize
-    }).then((data) => {
+    callApi(selectedValue).then((data) => {
       setOrders(data?.data)
       setTotal(data?.total)
-      setEditableStatus({ payment_status: false, delivery_status: false })
     })
   }
 
   useEffect(() => {
     allOrders()
-  }, [])
+  }, [selectedValue])
 
 
   const handleStatusChange = (orderId, status, key) => {
     apiCall(`/order/admin/update/${orderId}`, "PUT", { [key]: status }).then((res) => {
       if (res.status == 200) {
-        toast.success(key.replace('_', ' ') + 'updated successfully', { position: 'top-center' })
-        allOrders();
+        toast.success(key.replace('_', ' ') + ' updated uccessfully', { position: 'top-center' })
+        setStatus((prev) => ({ ...prev, [key]: status }))
       }
     })
+    setEditableStatus({ payment_status: false, delivery_status: false })
   };
 
 
@@ -78,6 +85,38 @@ const AdminOrders = () => {
     setIsModalVisible(false);
   };
 
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (selectRef.current &&
+        !selectRef.current.contains(event.target) &&
+        !document.querySelector('.ant-select-dropdown')?.contains(event.target)) {
+        setEditableStatus({ payment_status: false, delivery_status: false });
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [setEditableStatus]);
+
+  const deleteHanlde = (id) => {
+    Modal.confirm({
+      title: "Are you sure you want to delete this Order?",
+      onOk: async () => {
+        try {
+          const res = await apiCall(`/order/admin/delete/${id}`, 'DELETE');
+          if (res?.status == 200) {
+            toast.success('Order Deleted Successfully!', { position: 'top-center' });
+            allOrders();
+          }
+        } catch {
+          toast.error("Failed to delete category. Please try again.");
+        }
+      },
+    });
+  };
+
   // Table Columns
   const columns = [
     {
@@ -96,7 +135,7 @@ const AdminOrders = () => {
       dataIndex: 'customerInfo',
 
       render: (_, record) => (
-        <div>
+        <div className='w-[8rem] xl:w-auto'>
           <Text strong>{record.shipping_address.name}</Text> <br />
           <Text> {record.shipping_address.email} </Text><br />
           <Text> {record.shipping_address.phone} </Text><br />
@@ -109,7 +148,7 @@ const AdminOrders = () => {
       dataIndex: 'amountInfo',
 
       render: (_, record) => (
-        <div className='w-[8rem] lg:w-auto'>
+        <div className='w-[8rem] xl:w-auto'>
           <Text>Subtotal: {record.subtotal}</Text> <br />
           <Text>Discount: {record.discount_amount}</Text> <br />
           <Text>Shipping Cost: {record.shipping_cost}</Text> <br />
@@ -122,7 +161,7 @@ const AdminOrders = () => {
       dataIndex: 'paymentInfo',
 
       render: (_, record) => (
-        <div className='w-[8rem] lg:w-auto'>
+        <div className='w-[8rem] xl:w-auto'>
           <Text>Method: {record.payment_method}</Text> <br />
           <Text>Trx ID: {record.trx_id || 'N/A'}</Text> <br />
           <Text>Coupon: <span className='border rounded-sm bg-gray-50 p-0.5 px-1.5 uppercase text-xs tracking-wide'>{record.coupon_code}</span></Text>
@@ -134,17 +173,27 @@ const AdminOrders = () => {
       dataIndex: 'paymentStatus',
       render: (_, record) => {
         return editableStatus.payment_status ?
-          <Select
-            suffixIcon={<MdOutlineKeyboardArrowDown size={20} />}
-            value={record.payment_status}
-            onChange={(value) => handleStatusChange(record.id, value, 'payment_status')}
+          <div ref={selectRef}>
+            <Select
+              suffixIcon={<MdOutlineKeyboardArrowDown size={20} />}
+              value={status.payment_status || record.payment_status}
+              onChange={(value) => handleStatusChange(record.id, value, 'payment_status')}
+              onBlur={() => setEditableStatus((prev) => ({ ...prev, payment_status: false }))}
+              style={{ width: 120 }}
+            >
+              <Option value="successful">Successful</Option>
+              <Option value="pending">Pending</Option>
+            </Select>
+          </div> : <p
             style={{ width: 120 }}
+            className={`border relative justify-center rounded flex items-center gap-2 w-fit text-xs py-[6.5px] px-3 uppercase tracking-wide ${{
+              pending: 'bg-orange-50 border-orange-200 text-orange-500',
+              successful: 'bg-green-50 border-green-200 text-green-500',
+            }[status.payment_status || record.payment_status] || 'bg-gray-50 border-gray-200 text-gray-500'
+              }`}
           >
-            <Option value="successful">Successful</Option>
-            <Option value="pending">Pending</Option>
-          </Select> : <p style={{ width: 120 }} onClick={() => setEditableStatus((prev) => ({ ...prev, payment_status: true }))} className={`border justify-between rounded cursor-pointer flex items-center gap-2 w-fit text-xs py-[6.5px] px-3 uppercase  tracking-wide ${record.payment_status == 'pending' ? 'bg-orange-50 border-orange-200 text-orange-500' : 'bg-green-50 border-green-200 text-green-500'} `}>
-            {record.payment_status}
-            <LuPencilLine />
+            {status.payment_status || record.payment_status}
+            <LuPencilLine onClick={() => setEditableStatus((prev) => ({ ...prev, payment_status: true }))} size={20} className='absolute -right-1.5 -top-2 bg-white text-gray-600 rounded-full p-1 border cursor-pointer' />
           </p>
 
       },
@@ -154,32 +203,32 @@ const AdminOrders = () => {
       dataIndex: 'deliveryStatus',
       render: (_, record) => {
         return editableStatus.delivery_status ? (
-          <Select
-
-            suffixIcon={<MdOutlineKeyboardArrowDown size={20} />}
-            value={record.delivery_status}
-            onChange={(value) => handleStatusChange(record.id, value, 'delivery_status')}
-            style={{ width: 120 }}
-          >
-            <Option value="pending">Pending</Option>
-            <Option value="confirmed">Confirmed</Option>
-            <Option value="delivered">Delivered</Option>
-            <Option value="canceled">Canceled</Option>
-          </Select>
+          <div ref={selectRef}>
+            <Select
+              suffixIcon={<MdOutlineKeyboardArrowDown size={20} />}
+              value={status.delivery_status || record.delivery_status}
+              onChange={(value) => handleStatusChange(record.id, value, 'delivery_status')}
+              style={{ width: 120 }}
+            >
+              <Option value="pending">Pending</Option>
+              <Option value="confirmed">Confirmed</Option>
+              <Option value="delivered">Delivered</Option>
+              <Option value="canceled">Canceled</Option>
+            </Select>
+          </div>
         ) : (
           <p
             style={{ width: 120 }}
             onClick={() => setEditableStatus((prev) => ({ ...prev, delivery_status: true }))}
-            className={`border justify-between rounded cursor-pointer flex items-center gap-2 w-fit text-xs py-[6.5px] px-3 uppercase tracking-wide ${record.delivery_status == 'pending'
-                ? 'bg-orange-50 border-orange-200 text-orange-500'
-                : record.delivery_status == 'confirmed'
-                  ? 'bg-green-50 border-green-200 text-green-500'
-                  : record.delivery_status == 'canceled'
-                    ? 'bg-red-50 border-red-200 text-red-500'
-                    : 'bg-gray-50 border-gray-200 text-gray-500'
+            className={`border justify-between rounded cursor-pointer flex items-center gap-2 w-fit text-xs py-[6.5px] px-3 uppercase tracking-wide ${{
+              pending: 'bg-orange-50 border-orange-200 text-orange-500',
+              confirmed: 'bg-green-50 border-green-200 text-green-500',
+              canceled: 'bg-red-50 border-red-200 text-red-500',
+            }[status.delivery_status || record.delivery_status] || 'bg-gray-50 border-gray-200 text-gray-500'
               }`}
           >
-            {record.delivery_status}
+
+            {status.delivery_status || record.delivery_status}
             <LuPencilLine />
           </p>
         );
@@ -192,7 +241,7 @@ const AdminOrders = () => {
       render: (_, record) => (
         <div className='flex items-center gap-2'>
           <FaRegEye className='text-blue cursor-pointer' onClick={() => handleViewProducts(record)} size={20} />
-          <RiDeleteBin6Line className='text-red-500 cursor-pointer' size={20} />
+          <RiDeleteBin6Line onClick={() => deleteHanlde(record.id)} className='text-red-500 cursor-pointer' size={20} />
         </div>
       ),
     },
@@ -233,47 +282,60 @@ const AdminOrders = () => {
     },
   ];
 
+
+  const handleChange = (value, name) => {
+    setSelectedValue((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
+
+  const handleDateChange = (dates, dateStrings) => {
+    setSelectedValue((prevState) => ({
+      ...prevState,
+      start_date: dateStrings[0],
+      end_date: dateStrings[1],
+    }));
+  }
+
+  console.log(selectedValue);
+
+
   return (
     <div className='adminlayout'>
-       <div className='flex justify-between items-center mb-8 mt-3 flex-wrap'>
-        <SearchInput className='!py-3 hover:!border-blue' placeholder='Search product by name' onSearch={setSearch} />
+      <div className='flex justify-end items-center mb-8 mt-3 flex-wrap'>
+        {/* <SearchInput className='!py-3 hover:!border-blue' placeholder='Search product by name' onSearch={setSearch} /> */}
         <div className='flex items-center gap-5 flex-wrap'>
-          {(selectedValue.category_id || selectedValue.status || selectedValue.sort_by) && <Button onClick={() => setSelectedValue({})} variant='danger' className='!py-[9px] flex items-center gap-2'><GrPowerReset />
-            Reset</Button>}
+          {/* {(selectedValue.delivery_status || selectedValue.payment_status || selectedValue.start_date || selectedValue.end_date) && <Button onClick={() => setSelectedValue({})} variant='danger' className='rounded'><GrPowerReset />
+            </Button>} */}
           <div className='flex items-center gap-5 -mt-2 flex-wrap'>
+            <RangePicker onChange={handleDateChange} className='rounded py-[11px] mt-2' />
             <AntSelect
               control={control}
-              name={'category_id'}
-              options={category}
-              placeholder="Search to Select category"
+              name={'payment_status'}
+              options={[
+                { value: 'pending', label: 'Pending' },
+                { value: "successful", label: "Successful" },
+              ]}
+              placeholder="Select payment status"
               width={250}
-              onChange={(value) => handleChange(value, 'category_id')}
+              showSearch={false}
+              onChange={(value) => handleChange(value, 'payment_status')}
             />
             <AntSelect
               control={control}
-              name={'status'}
+              name={'delivery_status'}
+              showSearch={false}
               options={[
-                { value: 1, label: 'Publish' },
-                { value: 0, label: "Hidden" },
+                { value: 'pending', label: 'Pending' },
+                { value: 'confirmed', label: "Confirmed" },
+                { value: 'delivired', label: 'Delivired' },
+                { value: 'cancel', label: "Canceled" },
               ]}
-              placeholder="Search to Select status"
+              placeholder="Select delivery status"
               width={250}
-              showSearch={false}
-              onChange={(value) => handleChange(value, 'status')}
-            />
-            <AntSelect
-              control={control}
-              name={'sort_by'}
-              showSearch={false}
-              options={[
-                { value: 'price_asc', label: 'Price low to high' },
-                { value: 'price_desc', label: "Price high to low" },
-                { value: 'latest', label: 'Oldest product on top' },
-                { value: 'rating', label: "Top rated product" },
-              ]}
-              placeholder="Sort by"
-              width={200}
-              onChange={(value) => handleChange(value, 'sort_by')}
+              onChange={(value) => handleChange(value, 'delivery_status')}
             />
           </div>
         </div>

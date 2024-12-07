@@ -67,6 +67,9 @@
         transition: 1s;
     }
 }
+.ant-picker-range input{
+    font-size: 15px !important;
+}
 .slick-track {
     display: flex;
     gap: 10px;

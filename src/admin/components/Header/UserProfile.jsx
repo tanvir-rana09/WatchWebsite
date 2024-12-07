@@ -12,21 +12,21 @@ const DropdownUser = () => {
 	const [admin, setAdmin] = useState();
 	const localUser = getLocalStorageItem("user");
 	const { callApi, error } = useApi('/auth/logout', 'GET');
-const navigate = useNavigate();
+	const navigate = useNavigate();
 	useEffect(() => {
 		setAdmin(user ? user : localUser);
-	}, [localUser,user]);
+	}, [localUser, user]);
 
 	const logout = async () => {
 		const data = await callApi();
-		
+
 		if (data?.status == 200) {
 			localStorage.removeItem('token')
 			localStorage.removeItem('user')
 			toast.success(data?.message)
 			navigate('/signin');
 		}
-		
+
 		if (error) {
 			toast.error(error?.data?.message);
 			localStorage.removeItem('token');
