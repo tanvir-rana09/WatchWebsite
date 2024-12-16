@@ -111,7 +111,7 @@ const AdminOrders = () => {
             allOrders();
           }
         } catch {
-          toast.error("Failed to delete category. Please try again.");
+          toast.error("Failed to delete product. Please try again.");
         }
       },
     });
@@ -263,6 +263,12 @@ const AdminOrders = () => {
       title: 'Product Name',
       dataIndex: 'name',
       key: 'name',
+    },
+    {
+      title: 'Size',
+      dataIndex: 'size',
+      key: 'size',
+      render: (_, record) => <p>{record?.size || '-/-'}</p>,
     },
     {
       title: 'Quantity',

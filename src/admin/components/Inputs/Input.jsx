@@ -77,7 +77,7 @@ const InputField = forwardRef(({
   };
 
   return (
-    <div className={`flex flex-col mb-4 ${className}`}>
+    <div className={`flex flex-col mb-4 w-full ${className}`}>
       <p className='mb-2 text-[16px] font-[500] text-gray-600'>{label} {required && <span className='text-red-500'>{'*'}</span>}</p>
       <Controller
         name={name}

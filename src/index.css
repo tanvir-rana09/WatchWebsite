@@ -7,7 +7,6 @@
 @layer base {
     html {
         font-family: "Rethink Sans", sans-serif;
-		
     }
 }
 @layer components {
@@ -43,16 +42,16 @@
         @apply flex items-center flex-col font-extendfont6 uppercase tracking-widest duration-500 transition ease-in-out text-sm gap-1;
     }
     .adminlayout {
-        @apply rounded p-5 md:p-10 bg-white shadow
+        @apply rounded p-5 md:p-10 bg-white shadow;
     }
-    .ant-select-selector{
-        @apply !border-none outline-none ring-0 !p-10
+    .ant-select-selector {
+        @apply !border-none outline-none ring-0 !p-10;
     }
-    .inputLabel{
-        @apply mb-2 font-[500] text-gray-600
+    .inputLabel {
+        @apply mb-2 font-[500] text-gray-600;
     }
-    .ant-btn{
-        @apply !bg-blue
+    .ant-btn {
+        @apply !bg-blue;
     }
 }
 @layer utilities {
@@ -67,7 +66,7 @@
         transition: 1s;
     }
 }
-.ant-picker-range input{
+.ant-picker-range input {
     font-size: 15px !important;
 }
 .slick-track {
@@ -78,7 +77,7 @@
 .slick-prev {
     background-color: rgb(70, 70, 70) !important;
     height: 40px;
-	width: 40px;
+    width: 40px;
     padding: 13px;
     color: white;
     display: flex;
@@ -98,7 +97,7 @@
 .slick-next:hover,
 .slick-prev:hover {
     background-color: rgb(0, 0, 0) !important;
-	color: whitesmoke;
+    color: whitesmoke;
 }
 .forhide .slick-track {
     display: flex;
@@ -117,48 +116,52 @@
 .activetop {
     transition: ease-in-out 0.5s;
 }
-.se-menu-list .txt,.se-placeholder{
+.se-menu-list .txt,
+.se-placeholder {
     font-size: 16px !important;
     font-family: "Rethink Sans";
 }
 
-  .ant-btn-variant-solid{
+.ant-btn-variant-solid {
     background-color: blue !important;
-  }
-  .ant-select-selection-placeholder{
+}
+.ant-select-selection-placeholder {
     font-size: 16px !important;
     margin-bottom: 2px;
     font-weight: 500 !important;
     color: rgb(55, 65, 81);
     font-family: "Rethink Sans";
-  }
-  .ant-select-selection-item{
+}
+.ant-select-selection-item {
     font-size: 16px !important;
     font-weight: 500;
-  }
-  .ant-select-selector:hover{
-    border-color:  #3c50e0 !important;
-  }
-  .ant-select-selector:focus{
+}
+.ant-select-selector:hover {
+    border-color: #3c50e0 !important;
+}
+.ant-select-selector:focus {
     outline: none !important;
     box-shadow: none !important;
-  }
-.ant-select-selector{
+}
+.ant-select-selector {
     border-radius: 4px !important;
+    overflow: hidden;
 }
 
-.ant-table-row-expand-icon{
+.ant-table-row-expand-icon {
     border-radius: 2px !important;
-    margin-top: 5px !important
-   
+    margin-top: 5px !important;
 }
 .custom-table .ant-table-row-expand-icon-cell {
     vertical-align: middle !important;
-  }
-.ant-table-cell {
-  font-size: 16px !important; 
 }
-.categoriesTable .ant-table-thead .ant-table-cell{
+.ant-table-cell {
+    font-size: 16px !important;
+}
+.categoriesTable .ant-table-thead .ant-table-cell {
     margin-left: 20px !important;
     padding-left: 42px !important;
 }
+/* .ant-switch-inner{
+    background-color: gray !important;
+} */

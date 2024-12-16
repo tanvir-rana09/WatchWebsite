@@ -164,7 +164,6 @@ const AntdTable = ({ data, columns: propColumns, endpoint = '', method = '', reC
 				dataSource={data}
 				pagination={false}
 			/>
-
 		</div>
 	);
 };

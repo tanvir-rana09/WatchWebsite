@@ -15,38 +15,42 @@ const AntSelect = forwardRef(({
   label,
   required = false,
   error = '',
+  multiple = false,
   ...rest
-}, ref) => (
-  <div>
-    <p className='mb-2 font-[500] text-[16px] text-gray-600'>{label} {required && <span className='text-red-500'>{'*'}</span>}</p>
-    <Controller
-      name={name}
-      control={control}
-      render={({ field }) => (
-        <Select
-          {...field}
-          disabled={disabled}
-          ref={ref}
-          value={disabled ? "No category availble" : field.value}
-          suffixIcon={<MdOutlineKeyboardArrowDown size={20} />}
-          showSearch={showSearch}
-          style={{ width, height: '48px', border: 0,outline:0 }}
-          placeholder={placeholder}
-          optionFilterProp="label"
-          filterSort={
-            filterSort ||
-            ((optionA, optionB) =>
-              (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase()))
-          }
-          options={options}  // Ensure options are formatted as { value, label }
-          {...rest}
-        />
-      )}
-    />
-    {error && <span className="text-red-500 text-sm mt-1">{error}</span>}
-  </div>
+}, ref) => {
+  return (
+    <div>
+      <p className='mb-2 font-[500] text-[16px] text-gray-600'>{label} {required && <span className='text-red-500'>{'*'}</span>}</p>
+      <Controller
+        name={name}
+        control={control}
+        render={({ field }) => (
+          <Select
+            {...field}
+            disabled={disabled}
+            ref={ref}
+            mode={multiple ? 'multiple' : 'single'}
+            value={disabled ? "No category availble" : field.value}
+            suffixIcon={<MdOutlineKeyboardArrowDown size={20} />}
+            showSearch={showSearch}
+            style={{ width, height: '48px', border: 0, outline: 0 }}
+            placeholder={placeholder}
+            optionFilterProp="label"
+            filterSort={
+              filterSort ||
+              ((optionA, optionB) =>
+                (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase()))
+            }
+            options={options} 
+            {...rest}
+          />
+        )}
+      />
+      {error && <span className="text-red-500 text-sm mt-1">{error}</span>}
+    </div>
 
-));
+  )
+});
 AntSelect.displayName = "AntSelect";
 
 export default AntSelect;

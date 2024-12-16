@@ -6,11 +6,12 @@ import WhiteLogo from '../../assets/Images/BannerImg/wall-clock white.png'
 import useApi from '../../utils/useApi';
 import { toast } from 'react-toastify';
 import { useAuth } from '../../context/useAuth';
-
+import { TbSection } from "react-icons/tb";
+ 
 const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
 	const location = useLocation();
 	const { pathname } = location;
-	const {loading } = useAuth();
+	const { loading } = useAuth();
 	const trigger = useRef(null);
 	const sidebar = useRef(null);
 	const navigate = useNavigate()
@@ -56,14 +57,14 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
 
 	const logout = async () => {
 		const data = await callApi();
-		
+
 		if (data?.status == 200) {
 			localStorage.removeItem('token')
 			localStorage.removeItem('user')
 			toast.success(data?.message)
 			navigate('/signin');
 		}
-		
+
 		if (error) {
 			toast.error(error?.data?.message);
 			localStorage.removeItem('token');
@@ -73,7 +74,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
 	return (
 		<aside
 			ref={sidebar}
-			className={`${!loading&&'absolute'} left-0 text-white top-0 pt-10 z-10 flex h-screen w-[17rem] flex-col overflow-y-hidden bg-black duration-300 ease-linear dark:bg-boxdark lg:static lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+			className={`${!loading && 'absolute'} left-0 text-white top-0 pt-10 z-10 flex h-screen w-[17rem] flex-col overflow-y-hidden bg-black duration-300 ease-linear dark:bg-boxdark lg:static lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'
 				}`}
 		>
 			{/* <!-- SIDEBAR HEADER --> */}
@@ -251,9 +252,18 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
 									Profile
 								</NavLink>
 							</li>
-							{/* <!-- Menu Item Profile --> */}
+							<li>
+								<NavLink
+									to="/admin/section"
+									className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${pathname.includes('profile') && 'bg-graydark dark:bg-meta-4'
+										}`}
+								>
+									<TbSection size={20}/>
 
-							{/* <!-- Menu Item Forms --> */}
+									Section
+								</NavLink>
+							</li>
+							
 							<SidebarLinkGroup
 								activeCondition={
 									pathname === '/forms' || pathname.includes('forms')

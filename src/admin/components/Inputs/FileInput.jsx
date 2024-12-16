@@ -54,7 +54,7 @@ const FileInputField = forwardRef(
 
     return (
       <div className={`flex flex-col mb-4 ${className}`}>
-        <label className='mb-2 font-semibold text-gray-600'>
+        <label className='mb-2 text-base font-semibold text-gray-600'>
           {label} {required && <span className='text-red-500'>*</span>}
         </label>
 
@@ -67,9 +67,9 @@ const FileInputField = forwardRef(
               <div className="flex items-center justify-center w-full">
                 <label
                   htmlFor={`file-input-${name}`}
-                  className={`flex flex-col items-center justify-center w-full min-h-64 max-h-fit border ${error && 'border-red-500'} border-gray-300 border-dashed rounded-lg cursor-pointer hover:bg-gray-100 transition`}
+                  className={`flex flex-col items-center justify-center w-full p-5 min-h-64 max-h-fit border ${error && 'border-red-500'} border-gray-300 border-dashed rounded-lg cursor-pointer hover:bg-gray-100 transition`}
                 >
-                  <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                  <div className="flex flex-col items-center justify-center pt-5">
                     <svg className="w-8 h-8 mb-4 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16" aria-hidden="true">
                       <path
                         stroke="currentColor"
@@ -93,24 +93,23 @@ const FileInputField = forwardRef(
                     onChange={(e) => handleFileChange(e.target.files, field)}
                     className="hidden"
                   />
+                  <div className="flex flex-wrap gap-2 mt-3">
+                    {previews.length > 0 && previews?.map((preview, index) => (
+                      preview && (<div key={index} className="relative h-24">
+                        <img src={preview} alt={`Preview ${index}`} className="w-full h-full object-cover rounded" />
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveFile(index, field)}
+                          className="absolute top-1 right-1 bg-red-600 text-white rounded-full w-5 h-5 flex items-center justify-center"
+                        >
+                          &times;
+                        </button>
+                      </div>)
+                    ))}
+                  </div>
                 </label>
               </div>
 
-              {/* Display selected files' previews */}
-              <div className="flex flex-wrap gap-2 mt-4">
-                {previews.length > 0 && previews?.map((preview, index) => (
-                  preview && (<div key={index} className="relative w-24 h-24">
-                    <img src={preview} alt={`Preview ${index}`} className="w-full h-full object-cover rounded" />
-                    <button
-                      type="button"
-                      onClick={() => handleRemoveFile(index, field)}
-                      className="absolute top-1 right-1 bg-red-600 text-white rounded-full w-5 h-5 flex items-center justify-center"
-                    >
-                      &times;
-                    </button>
-                  </div>)
-                ))}
-              </div>
             </>
           )}
         />

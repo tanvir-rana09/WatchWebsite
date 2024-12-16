@@ -19,37 +19,31 @@ const columns = [
 		dataIndex: 'name',
 		key: 'name',
 		width: '20%',
-		searchable: true,
 	},
 	{
 		title: 'Category',
 		dataIndex: 'category',
 		key: 'category',
-		searchable: true,
 	},
 	{
 		title: 'Price',
 		dataIndex: 'price',
 		key: 'price',
-		sorter: (a, b) => a.price - b.price,
 	},
 	{
 		title: 'Stock',
 		dataIndex: 'stock',
 		key: 'stock',
-		sorter: (a, b) => a.stock - b.stock,
 	},
 	{
 		title: 'Sells',
 		dataIndex: 'sells',
 		key: 'sells',
-		sorter: (a, b) => a.sells - b.sells,
 	},
 	{
 		title: 'Rating',
 		dataIndex: 'rating',
 		key: 'rating',
-		sorter: (a, b) => a.rating - b.rating,
 	},
 	{
 		title: 'Status',

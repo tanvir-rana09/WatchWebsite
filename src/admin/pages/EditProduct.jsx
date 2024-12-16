@@ -11,6 +11,7 @@ import Button from "../components/Buttons/Button";
 import { IoMdAdd } from "react-icons/io";
 import { toast } from "react-toastify";
 import { debounce } from "lodash";
+import { Switch } from "antd";
 
 const EditProduct = () => {
 	const { control, handleSubmit, setValue, reset, watch, getValues } = useForm();
@@ -19,10 +20,11 @@ const EditProduct = () => {
 	const [category, setCategory] = useState([]);
 	const [subCategory, setSubCategory] = useState([]);
 	const { id } = useParams();
+	const [sizes, setSizes] = useState([]);
 	const navigate = useNavigate();
 	const [initialLoading, setInitialLoading] = useState(false)
+	const [showSize, setShowSize] = useState(false);
 	const { callApi, error, loading } = useApi(`/product/update/${id}`, 'POST');
-
 	// Fetch categories
 	useEffect(() => {
 		apiCall('/category', "get").then((data) => {
@@ -51,6 +53,7 @@ const EditProduct = () => {
 						short_desc: productData?.short_desc || null,
 						long_desc: productData?.long_desc || null,
 						images: productData?.images || [],
+						size: productData?.size || [],
 						gender: productData?.gender || null,
 						status: productData?.status || null,
 						category_id: productData?.category_id || null,
@@ -61,11 +64,23 @@ const EditProduct = () => {
 					Object.keys(obj).forEach((field) => {
 						setValue(field, productData[field]);
 					});
+					if (obj.size && obj.size.length > 0) {
+						if (obj.size[0].includes('3') || obj.size[0].includes('4')) {
+							setShowSize(true);
+							setValue('sizeType', 'numeric');
+						} else {
+							setShowSize(true);
+							setValue('sizeType', 'text');
+						}
+					} else {
+						setShowSize(false);
+						setValue('sizeType', null);
+					}
 				}
 			} catch (error) {
 				console.error("Error fetching product data:", error);
-			} finally{ setInitialLoading(false);}
-			
+			} finally { setInitialLoading(false); }
+
 		};
 		fetchProductData();
 	}, [id, setValue, setInitialData]);
@@ -102,6 +117,25 @@ const EditProduct = () => {
 		return () => fetchSubCategories.cancel();
 	}, [categoryId]);
 
+	const textSizes = [
+		{ value: 'XS', label: 'XS' },
+		{ value: 'S', label: 'S' },
+		{ value: 'M', label: 'M' },
+		{ value: 'L', label: 'L' },
+		{ value: 'XL', label: 'XL' },
+		{ value: 'XXL', label: 'XXL' },
+	];
+
+	const numericSizes = [
+		{ value: '30', label: '30' },
+		{ value: '32', label: '32' },
+		{ value: '34', label: '34' },
+		{ value: '36', label: '36' },
+		{ value: '38', label: '38' },
+		{ value: '40', label: '40' },
+		{ value: '42', label: '42' },
+		{ value: '44', label: '44' },
+	];
 
 	const onSubmit = async (formData) => {
 		const changedData = { _method: 'PUT' };
@@ -136,6 +170,13 @@ const EditProduct = () => {
 			setApiErrors(errorsFromApi);
 		} else setApiErrors({});
 	}, [error]);
+
+	// Watch for size type changes
+	const sizeType = watch('sizeType');
+	useEffect(() => {
+		setSizes(sizeType === 'text' ? textSizes : numericSizes);
+		setValue('size', []); // Reset sizes on type change
+	}, [sizeType, setValue]);
 
 
 
@@ -193,6 +234,34 @@ const EditProduct = () => {
 								setValue={setValue}
 								label="Select Status"
 							/>
+							<div className="flex items-center gap-2">
+								<Switch className="bg-gray-300" size="small" checked={showSize} onClick={() => setShowSize(!showSize)} />
+								<label className="font-medium">Add Size</label>
+							</div>
+							{showSize && (
+								<>
+									<CheckboxGroup
+										error={apiErrors?.sizeType}
+										control={control}
+										name="sizeType"
+										setValue={setValue}
+										options={[
+											{ value: 'text', label: 'Text Sizes' },
+											{ value: 'numeric', label: 'Numeric Sizes ' },
+										]}
+										label="Select Size Type"
+									/>
+									<AntSelect error={apiErrors?.category_id}
+										label='Select Sizes'
+										name={'size'}
+										control={control}
+										options={sizes}
+										multiple
+										placeholder="Search to Select"
+										width={'100%'}
+									/>
+								</>
+							)}
 							<AntSelect error={apiErrors?.category_id}
 								label="Select Main Category"
 								required
