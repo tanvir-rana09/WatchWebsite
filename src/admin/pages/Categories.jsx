@@ -141,6 +141,7 @@ const Categories = () => {
               },
               rowExpandable: (record) => record.children?.length > 0,
             }}
+            rowKey="key"
           />
         )}
         <div className="pagination-container mt-5 pt-2">

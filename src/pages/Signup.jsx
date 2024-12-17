@@ -25,7 +25,6 @@ const SignUp = () => {
         theme: "light",
         transition: Bounce,
       })
-      console.log(data);
       navigate('/signin');
     }
 

@@ -11,7 +11,6 @@ import debounce from "lodash/debounce";
 import apiCall from "../../utils/apiCall";
 import Button from "../components/Buttons/Button.jsx";
 import SectionCol from "../../Columns/SectionColumn.jsx";
-import { FaRegEye } from "react-icons/fa";
 import SectionModal from "../components/modal/SectionModal.jsx";
 
 const Section = () => {
@@ -21,7 +20,7 @@ const Section = () => {
 	const [currentPage, setCurrentPage] = useState(1);
 	const [pageSize, setPageSize] = useState(10);
 	const [search, setSearch] = useState("");
-	const [category, setCategory] = useState({});
+	const [section, setSection] = useState({});
 	const [isModalVisible, setIsModalVisible] = useState(false);
 
 	const fetchProducts = async () => {
@@ -44,14 +43,14 @@ const Section = () => {
 
 	const handleDelete = (id) => {
 		Modal.confirm({
-			title: "Are you sure you want to delete this category?",
+			title: "Are you sure you want to delete this section?",
 			onOk: async () => {
 				try {
 					await apiCall(`/section/delete/${id}`, "DELETE");
-					message.success("Category deleted successfully.");
+					message.success("Section deleted successfully.");
 					fetchProducts();
 				} catch {
-					message.error("Failed to delete category. Please try again.");
+					message.error("Failed to delete section. Please try again.");
 				}
 			},
 		});
@@ -64,12 +63,11 @@ const Section = () => {
 				<Button
 					className="!p-2 text-lg !bg-transparent !text-blue"
 					onClick={() =>
-						setIsModalVisible(true) || setCategory({ id: record.id, name: record.name, sub: false })
+						setIsModalVisible(true) || setSection(record)
 					}
 				>
 					<MdOutlineEdit size={20} />
 				</Button>
-				<Button className="!p-2 !bg-transparent !text-purple border-none" variant="third"><FaRegEye size={20} /></Button>
 				<Button
 					className="!p-2 border-none !bg-transparent !text-red-500"
 					onClick={() => handleDelete(record.id)}
@@ -107,6 +105,7 @@ const Section = () => {
 						columns={columns}
 						dataSource={data}
 						pagination={false}
+						rowKey="id"
 					/>
 				)}
 				<div className="pagination-container mt-5 pt-2">
@@ -124,9 +123,9 @@ const Section = () => {
 					<SectionModal
 						data={data}
 						recall={fetchProducts}
-						onClose={() => setIsModalVisible(false)}
+						onClose={() => { setIsModalVisible(false); setSection() }}
 						visible={isModalVisible}
-						id={category}
+						id={section}
 					/>
 				)}
 			</div>

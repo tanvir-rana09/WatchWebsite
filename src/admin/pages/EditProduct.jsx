@@ -12,6 +12,7 @@ import { IoMdAdd } from "react-icons/io";
 import { toast } from "react-toastify";
 import { debounce } from "lodash";
 import { Switch } from "antd";
+import { numericSizes, textSizes, combinedSizes } from "../Static"
 
 const EditProduct = () => {
 	const { control, handleSubmit, setValue, reset, watch, getValues } = useForm();
@@ -25,7 +26,7 @@ const EditProduct = () => {
 	const [initialLoading, setInitialLoading] = useState(false)
 	const [showSize, setShowSize] = useState(false);
 	const { callApi, error, loading } = useApi(`/product/update/${id}`, 'POST');
-	// Fetch categories
+	
 	useEffect(() => {
 		apiCall('/category', "get").then((data) => {
 			if (data) {
@@ -38,7 +39,7 @@ const EditProduct = () => {
 		});
 	}, []);
 
-	// Fetch product data by ID and set as default values
+	
 	useEffect(() => {
 		const fetchProductData = async () => {
 			try {
@@ -65,7 +66,10 @@ const EditProduct = () => {
 						setValue(field, productData[field]);
 					});
 					if (obj.size && obj.size.length > 0) {
-						if (obj.size[0].includes('3') || obj.size[0].includes('4')) {
+						if (obj.gender == 'kid') {
+							setShowSize(true);
+							setValue('sizeType', 'kid');
+						} else if (obj.size[0].includes('3') || obj.size[0].includes('4')) {
 							setShowSize(true);
 							setValue('sizeType', 'numeric');
 						} else {
@@ -87,7 +91,7 @@ const EditProduct = () => {
 
 	const categoryId = watch('category_id');
 	useEffect(() => {
-		// Define a debounced API call
+		
 		const fetchSubCategories = debounce(async (id) => {
 			try {
 				const data = await apiCall(`/category?parent_id=${id}`, "get");
@@ -97,7 +101,7 @@ const EditProduct = () => {
 						label: category.name,
 					}));
 
-					// Update state only if data is different
+					
 					setSubCategory((prev) => {
 						const isDataChanged = JSON.stringify(prev) !== JSON.stringify(apiSubCategory);
 						return isDataChanged ? apiSubCategory : prev;
@@ -106,41 +110,23 @@ const EditProduct = () => {
 			} catch (error) {
 				console.error("Error fetching subcategories:", error);
 			}
-		}, 300); // Adjust the debounce time as needed
+		}, 300); 
 
-		// Fetch data only if categoryId is defined
+		
 		if (categoryId) {
 			fetchSubCategories(categoryId);
 		}
 
-		// Cleanup debounce on unmount
+		
 		return () => fetchSubCategories.cancel();
 	}, [categoryId]);
 
-	const textSizes = [
-		{ value: 'XS', label: 'XS' },
-		{ value: 'S', label: 'S' },
-		{ value: 'M', label: 'M' },
-		{ value: 'L', label: 'L' },
-		{ value: 'XL', label: 'XL' },
-		{ value: 'XXL', label: 'XXL' },
-	];
 
-	const numericSizes = [
-		{ value: '30', label: '30' },
-		{ value: '32', label: '32' },
-		{ value: '34', label: '34' },
-		{ value: '36', label: '36' },
-		{ value: '38', label: '38' },
-		{ value: '40', label: '40' },
-		{ value: '42', label: '42' },
-		{ value: '44', label: '44' },
-	];
 
 	const onSubmit = async (formData) => {
 		const changedData = { _method: 'PUT' };
 
-		// Compare each form field with initial data to find changes
+		
 		Object.keys(formData).forEach((key) => {
 			if (JSON.stringify(formData[key]) !== JSON.stringify(initialData[key])) {
 				changedData[key] = formData[key];
@@ -160,7 +146,7 @@ const EditProduct = () => {
 		}
 	};
 
-	// Handle API errors for form fields
+	
 	useEffect(() => {
 		if (error?.data?.errors) {
 			const errorsFromApi = {};
@@ -171,11 +157,34 @@ const EditProduct = () => {
 		} else setApiErrors({});
 	}, [error]);
 
-	// Watch for size type changes
+	const clothingSizes = combinedSizes.filter((size) =>
+		size.value.startsWith("clothing")
+	);
+	const shoeSizes = combinedSizes.filter((size) =>
+		size.value.startsWith("shoe")
+	);
+
+	const groupedOptions = [
+		{
+			label: <strong>Clothing Sizes</strong>,
+			options: clothingSizes.map((size) => ({
+				label: size.label,
+				value: size.value,
+			})),
+		},
+		{
+			label: <strong>Shoe Sizes</strong>,
+			options: shoeSizes.map((size) => ({
+				label: size.label,
+				value: size.value,
+			})),
+		},
+	]; 
+
 	const sizeType = watch('sizeType');
 	useEffect(() => {
-		setSizes(sizeType === 'text' ? textSizes : numericSizes);
-		setValue('size', []); // Reset sizes on type change
+		setSizes(sizeType === 'text' ? textSizes : sizeType === 'numeric' ? numericSizes : groupedOptions);
+		setValue('size', []); 
 	}, [sizeType, setValue]);
 
 
@@ -220,6 +229,8 @@ const EditProduct = () => {
 								options={[
 									{ value: 'men', label: 'Men' },
 									{ value: 'women', label: 'Women' },
+									{ value: 'kid', label: 'Kid' },
+									{ value: 'others', label: 'Others' },
 								]}
 								setValue={setValue}
 								label="Select Item Gender"
@@ -248,6 +259,7 @@ const EditProduct = () => {
 										options={[
 											{ value: 'text', label: 'Text Sizes' },
 											{ value: 'numeric', label: 'Numeric Sizes ' },
+											{ value: 'kid', label: 'Kid Sizes' },
 										]}
 										label="Select Size Type"
 									/>

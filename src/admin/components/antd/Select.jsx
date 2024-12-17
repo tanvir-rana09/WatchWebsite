@@ -10,7 +10,6 @@ const AntSelect = forwardRef(({
   placeholder = "Select an option",
   width = 200,
   showSearch = true,
-  filterSort,
   disabled = false,
   label,
   required = false,
@@ -18,8 +17,9 @@ const AntSelect = forwardRef(({
   multiple = false,
   ...rest
 }, ref) => {
+
   return (
-    <div>
+    <div className=''>
       <p className='mb-2 font-[500] text-[16px] text-gray-600'>{label} {required && <span className='text-red-500'>{'*'}</span>}</p>
       <Controller
         name={name}
@@ -30,18 +30,14 @@ const AntSelect = forwardRef(({
             disabled={disabled}
             ref={ref}
             mode={multiple ? 'multiple' : 'single'}
-            value={disabled ? "No category availble" : field.value}
+            value={disabled ? "No category availble" : field.value }
             suffixIcon={<MdOutlineKeyboardArrowDown size={20} />}
+            className=''
             showSearch={showSearch}
-            style={{ width, height: '48px', border: 0, outline: 0 }}
+            style={{ width, height: multiple ? '' : '50px', border: 0, outline: 0 }}
             placeholder={placeholder}
             optionFilterProp="label"
-            filterSort={
-              filterSort ||
-              ((optionA, optionB) =>
-                (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase()))
-            }
-            options={options} 
+            options={options}
             {...rest}
           />
         )}

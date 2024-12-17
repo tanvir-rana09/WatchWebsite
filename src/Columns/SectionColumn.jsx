@@ -1,6 +1,6 @@
 import { Tag } from "antd";
 
-const SectionCol =(currentPage, pageSize)=> [
+const SectionCol = (currentPage, pageSize) => [
 	{
 		title: '#',
 		dataIndex: 'id',
@@ -12,29 +12,33 @@ const SectionCol =(currentPage, pageSize)=> [
 		title: 'File',
 		dataIndex: 'file',
 		key: 'file',
-		render: (text, record) => <img src={record?.file} className="object-cover rounded" alt="product" style={{ width: 50, height: 50 }} />,
+		render: (text, record) => <div className="min-w-14"><img src={record?.file} className="object-cover rounded" alt="product" style={{ width: 60, height: 60 }} /></div>,
 	},
 	{
 		title: 'Name',
 		dataIndex: 'name',
 		key: 'name',
+		render: (_, record) => <p className="w-44">{record.name}</p>,
 	},
 	{
 		title: 'Description',
 		dataIndex: 'description',
 		key: 'description',
+		render: (_, record) => <p className="w-56">{record.description}</p>,
 	},
 	{
 		title: 'Button Text',
 		dataIndex: 'button_text',
 		key: 'button_text',
+		render: (_, record) => <p className="w-32">{record.button_text}</p>,
 	},
 	{
 		title: 'Button Link',
 		dataIndex: 'button_link',
 		key: 'button_link',
+		render: (_, record) => <p className="w-32">{record.button_link}</p>,
 	},
-	
+
 	{
 		title: 'Status',
 		dataIndex: 'status',
@@ -47,8 +51,6 @@ const SectionCol =(currentPage, pageSize)=> [
 				</Tag>
 			);
 		}
-
-		,
 	},
 	{
 		title: 'Actions',

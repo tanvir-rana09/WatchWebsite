@@ -1,63 +1,109 @@
 import { Modal } from "antd";
 import Button from "../Buttons/Button";
 import InputField from "../Inputs/Input";
-import AntSelect from "../antd/Select";
 import { useEffect, useState } from "react";
 import apiCall from "../../../utils/apiCall";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import FileInputField from "../Inputs/FileInput";
 
-const SectionModal = ({ onClose, visible, id, data, recall }) => {
-	const { control, handleSubmit, reset, setValue } = useForm();
-	const [apiErrors, setApiErrors] = useState({});
-	useEffect(() => {
-		if (id?.id) {
-			setValue("name", id.name);
-			setValue("_method", "PUT");
-		}
-	}, [id, setValue]);
+const SectionModal = ({ onClose, visible, id, recall }) => {
+	const { control, handleSubmit, reset, setValue, getValues } = useForm({
+		defaultValues: {
+			name: "",
+			description: "",
+			button_link: "",
+			button_text: "",
+			file: null,
+		},
+	});
 
-	const addCategory = async (formData) => {
+	const [initialValues, setInitialValues] = useState({});
+	const [apiErrors, setApiErrors] = useState({});
+
+	useEffect(() => {
+		if (id) {
+
+			const initValues = {
+				name: id.name || "",
+				description: id.description || "",
+				button_link: id.button_link || "",
+				button_text: id.button_text || "",
+				file: id.file || null,
+			};
+
+			setInitialValues(initValues);
+			reset(initValues);
+
+			if (id?.id) {
+				setValue("_method", "PUT");
+			}
+		}
+	}, [id, reset, setValue]);
+
+	const addSection = async (formData) => {
 		try {
+
+			const changedValues = Object.keys(formData).reduce((acc, key) => {
+				if (formData[key] !== initialValues[key]) {
+					acc[key] = formData[key];
+				}
+				return acc;
+			}, {});
 			const url = id?.id ? `/section/update/${id.id}` : `/section/add`;
 			const method = "POST";
-			const data = await apiCall(url, method, formData);
+
+			const data = await apiCall(url, method, changedValues);
+
 
 			if (data) {
-				toast.success(`Category ${id?.id ? "updated" : "added"} successfully.`);
-				recall()
+				toast.success(`Section ${id?.id ? "updated" : "added"} successfully.`);
+				recall();
 				reset();
 				onClose();
 			}
-		} catch {
-			toast.error("Failed to save category. Please try again.");
+		} catch (error) {
+			if (error?.response?.data?.errors) {
+				const errorsFromApi = {};
+				Object.entries(error?.response?.data?.errors).forEach(([field, messages]) => {
+					errorsFromApi[field] = messages[0] + '*';
+				});
+				setApiErrors(errorsFromApi);
+			} else setApiErrors({});
+			toast.error("Failed to save section. Please try again.");
 		}
 	};
 
 	return (
 		<Modal
-
 			width={800}
 			open={visible}
 			onCancel={onClose}
 			footer={null}
 		>
-			<form onSubmit={handleSubmit(addCategory)}>
+			<form encType="multipart/form-data" onSubmit={handleSubmit(addSection)}>
 				<div className="grid grid-cols-1 md:grid-cols-7 md:gap-5 w-full">
 					<div className="col-span-3">
-						<FileInputField error={apiErrors?.images} label="Section images" name="file" control={control} />
+						<FileInputField
+							imagePreviews={[id?.file]}
+							error={apiErrors?.file}
+							label="Section images"
+							name="file"
+							control={control}
+						/>
 					</div>
 					<div className="w-full md:col-span-4 flex flex-col justify-between">
 						<InputField
+						error={apiErrors?.name}
 							required
-							label="Category name"
+							label="Section name"
 							name="name"
 							type="text"
 							control={control}
-							placeholder="Category name"
+							placeholder="Section name"
 						/>
 						<InputField
+						error={apiErrors?.button_text}
 							required
 							label="Button Text"
 							name="button_text"
@@ -66,6 +112,7 @@ const SectionModal = ({ onClose, visible, id, data, recall }) => {
 							placeholder="Button text"
 						/>
 						<InputField
+						error={apiErrors?.button_link}
 							required
 							label="Button Link"
 							name="button_link"
@@ -76,6 +123,7 @@ const SectionModal = ({ onClose, visible, id, data, recall }) => {
 					</div>
 				</div>
 				<InputField
+				error={apiErrors?.description}
 					required
 					label="Description"
 					name="description"
@@ -89,7 +137,7 @@ const SectionModal = ({ onClose, visible, id, data, recall }) => {
 						Cancel
 					</Button>
 					<Button type="submit">
-						{id?.id ? "Update" : "Add"} Category
+						{id?.id ? "Update" : "Add"} Section
 					</Button>
 				</div>
 			</form>

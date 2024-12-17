@@ -1,5 +1,6 @@
 
 const columns = [
+	
 	{
 		title: 'Name',
 		dataIndex: 'name',

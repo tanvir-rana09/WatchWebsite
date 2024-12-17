@@ -5,8 +5,8 @@ import { getLocalStorageItem } from "./setWithExpire";
 const apiClient = axios.create({
     baseURL: import.meta.env.VITE_APP_BASE_URL, // Replace with your API URL
     headers: {
-        "Content-Type": "application/json",
-    },
+        'Content-Type': 'multipart/form-data',
+      },
     timeout: 10000, // 10 seconds timeout for requests
 });
 apiClient.interceptors.request.use(

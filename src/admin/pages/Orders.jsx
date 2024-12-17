@@ -305,9 +305,6 @@ const AdminOrders = () => {
     }));
   }
 
-  console.log(selectedValue);
-
-
   return (
     <div className='adminlayout'>
       <div className='flex justify-end items-center mb-8 mt-3 flex-wrap'>

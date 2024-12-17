@@ -22,17 +22,20 @@ const InputField = forwardRef(({
             ref={ref}
             rows={7}
             {...field}
+            value={field.value ?? ""}
             placeholder={placeholder}
-            className={`w-full p-3 border rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue ${error ? 'border-red-500' : 'border-gray-300'} ${className}`}
+            className={`w-full p-3 border rounded-md text-base text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue ${error ? 'border-red-500' : 'border-gray-300'} ${className}`}
           />
         );
 
       case 'editor':
         return (
           <SunEditorWrapper
+
             height='300'
             {...field}
             setOptions={{
+              iframeAutoHeight: true,
               height: 800,
               defaultStyle: "font-family: 'Rethink Sans'; font-size: 16px;",
               buttonList: [
@@ -68,9 +71,9 @@ const InputField = forwardRef(({
             type={type}
             {...field}
             ref={ref}
-            // onChange={onChange}
+            value={field.value ?? ""}
             placeholder={placeholder}
-            className={`w-full rounded placeholder:text-[15px] placeholder:text-gray-400 placeholder:font-normal placeholder:tracking-wider border border-gray-300 focus:ring-2 ring-blue focus:border-none bg-transparent py-3 pl-3 pr-5 outline-none focus:border-blue focus-visible:shadow-none text-gray-700 ${error ? 'border-red-500' : 'border-gray-300'} ${className}`}
+            className={`w-full rounded placeholder:text-[15px] text-base placeholder:text-gray-400 placeholder:font-normal placeholder:tracking-wider border border-gray-300 focus:ring-2 ring-blue focus:border-none bg-transparent py-3 pl-3 pr-5 outline-none focus:border-blue focus-visible:shadow-none text-gray-700 ${error ? 'border-red-500' : 'border-gray-300'} ${className}`}
           />
         );
     }

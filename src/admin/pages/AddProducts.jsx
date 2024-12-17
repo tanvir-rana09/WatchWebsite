@@ -12,6 +12,7 @@ import { toast } from "react-toastify"
 import { useNavigate } from "react-router-dom"
 import { debounce } from "lodash"
 import { Switch } from "antd"
+import { numericSizes, textSizes, combinedSizes } from "../Static"
 
 const AddProducts = () => {
 	const { control, handleSubmit, setValue, reset, watch } = useForm({
@@ -30,26 +31,7 @@ const AddProducts = () => {
 		{ value: 'men', label: 'Men' },
 		{ value: 'women', label: 'Women' },
 		{ value: 'kid', label: 'Kid' },
-	];
-
-	const textSizes = [
-		{ value: 'XS', label: 'XS' },
-		{ value: 'S', label: 'S' },
-		{ value: 'M', label: 'M' },
-		{ value: 'L', label: 'L' },
-		{ value: 'XL', label: 'XL' },
-		{ value: 'XXL', label: 'XXL' },
-	];
-
-	const numericSizes = [
-		{ value: '30', label: '30' },
-		{ value: '32', label: '32' },
-		{ value: '34', label: '34' },
-		{ value: '36', label: '36' },
-		{ value: '38', label: '38' },
-		{ value: '40', label: '40' },
-		{ value: '42', label: '42' },
-		{ value: '44', label: '44' },
+		{ value: 'others', label: 'Others' },
 	];
 
 	useEffect(() => {
@@ -91,7 +73,6 @@ const AddProducts = () => {
 	const { callApi, error, loading } = useApi('/product/add', 'POST');
 	const navigate = useNavigate();
 	const onSubmit = async (formdata) => {
-		console.log("Form Data:", formdata);
 		const data = await callApi(formdata);
 		if (data?.status == 200) {
 			toast.success("Product added successfully", { position: "top-center" });
@@ -110,15 +91,54 @@ const AddProducts = () => {
 		} else setApiErrors({});
 	}, [error]);
 
-	// Watch for size type changes
+	
+	const clothingSizes = combinedSizes.filter((size) =>
+		size.value.startsWith("clothing")
+	);
+	const shoeSizes = combinedSizes.filter((size) =>
+		size.value.startsWith("shoe")
+	);
+
+	const groupedOptions = [
+		{
+			label: <strong>Clothing Sizes</strong>,
+			options: clothingSizes.map((size) => ({
+				label: size.label,
+				value: size.value,
+			})),
+		},
+		{
+			label: <strong>Shoe Sizes</strong>,
+			options: shoeSizes.map((size) => ({
+				label: size.label,
+				value: size.value,
+			})),
+		},
+	]; 
+
+
 	const sizeType = watch('sizeType');
 	useEffect(() => {
-		setSizes(sizeType === 'text' ? textSizes : numericSizes);
-		setValue('size', []); // Reset sizes on type change
+		let sizes = [];
+
+		switch (sizeType) {
+			case 'text':
+				sizes = textSizes;
+				break;
+			case 'numeric':
+				sizes = numericSizes;
+				break;
+			case 'kid':
+				sizes = groupedOptions;
+				break;
+			default:
+				sizes = [];
+		}
+		setSizes(sizes);
+		setValue('size', []);
 	}, [sizeType, setValue]);
 
-	console.log(watch('size'));
-	
+
 	return (
 		<div>
 			<form encType="multipart/form-data" className="grid xl:grid-cols-3 gap-5 2xl:gap-10" onSubmit={handleSubmit(onSubmit)}>
@@ -139,7 +159,7 @@ const AddProducts = () => {
 						name="gender"
 						options={itemTypes}
 						setValue={setValue}
-						label="Select Item Gender"
+						label="Select Item Type"
 					/>
 					<CheckboxGroup error={apiErrors?.status}
 						control={control}
@@ -164,11 +184,12 @@ const AddProducts = () => {
 								setValue={setValue}
 								options={[
 									{ value: 'text', label: 'Text Sizes' },
-									{ value: 'numeric', label: 'Numeric Sizes ' },
+									{ value: 'numeric', label: 'Numeric Sizes' },
+									{ value: 'kid', label: 'Kid Sizes' },
 								]}
 								label="Select Size Type"
 							/>
-							<AntSelect error={apiErrors?.category_id}
+							<AntSelect error={apiErrors?.size}
 								label='Select Sizes'
 								name={'size'}
 								control={control}

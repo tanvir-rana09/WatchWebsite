@@ -143,9 +143,10 @@
     outline: none !important;
     box-shadow: none !important;
 }
-.ant-select-selector {
+.ant-select-selector,.ant-select-selector {
     border-radius: 4px !important;
     overflow: hidden;
+    padding: 10px !important;
 }
 
 .ant-table-row-expand-icon {
@@ -162,6 +163,3 @@
     margin-left: 20px !important;
     padding-left: 42px !important;
 }
-/* .ant-switch-inner{
-    background-color: gray !important;
-} */

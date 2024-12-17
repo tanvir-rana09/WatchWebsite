@@ -49,6 +49,10 @@ const AdminProducts = () => {
         sells: item.sells,
         rating: item.rating,
         status: item.status,
+        discount: item.discount,
+        sku: item.sku,
+        size: item.size,
+        gender: item.gender,
       }));
       setData(transformedData);
     });
@@ -81,7 +85,6 @@ const AdminProducts = () => {
     }));
   };
 
-  console.log(selectedValue);
 
   return (
     <div className='adminlayout'>
@@ -94,7 +97,7 @@ const AdminProducts = () => {
         <div className='flex items-center gap-5 flex-wrap'>
           {(selectedValue.category_id || selectedValue.status || selectedValue.sort_by) && <Button onClick={() => setSelectedValue({})} variant='danger' className='!py-[9px] flex items-center gap-2'><GrPowerReset />
             Reset</Button>}
-          <div className='flex items-center gap-5 -mt-2 flex-wrap'>
+          <div className='flex flex-row gap-5 -mt-2 flex-wrap '>
             <AntSelect
               control={control}
               name={'category_id'}
